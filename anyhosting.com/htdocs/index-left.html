@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<SCRIPT LANGUAGE=JAVASCRIPT>
+
+	        image1_on = new Image();
+	        image1_off = new Image();
+	        image1_on.src = 'images/ne2.jpg'
+	        image1_off.src = 'images/ne1.jpg'
+
+	        image2_on = new Image();
+	        image2_off = new Image();
+	        image2_on.src = 'images/og2.jpg'
+	        image2_off.src = 'images/og1.jpg'
+
+	        image3_on = new Image();
+	        image3_off = new Image();
+	        image3_on.src = 'images/cc2.jpg'
+	        image3_off.src = 'images/cc1.jpg'
+
+	        image4_on = new Image();
+	        image4_off = new Image();
+	        image4_on.src = 'images/dwh2.jpg'
+	        image4_off.src = 'images/dwh1.jpg'
+
+	        image5_on = new Image();
+	        image5_off = new Image();
+	        image5_on.src = 'images/lx2.jpg'
+	        image5_off.src = 'images/lx1.jpg'
+
+	        image6_on = new Image();
+	        image6_off = new Image();
+	        image6_on.src = 'images/l2.jpg'
+	        image6_off.src = 'images/l1.jpg'
+
+
+			function activate(imgName) {
+                                document[imgName].src = eval(imgName + "on.src");
+			}
+
+			// Lowlight Image
+			function deactivate(imgName) {
+				document[imgName].src = eval(imgName + "off.src");
+			}
+
+
+	</SCRIPT>
+
+	<TITLE>Any Hosting Services - Namodn</TITLE>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="Date" CONTENT="10/11/96">
+	<META NAME="description" CONTENT="AnyHosting.com is a Domain & Web Hosting Service
+		     provided by Namodn. We offer low prices, steady service,
+		     and comprehensive technical support.">
+</HEAD>
+
+<BODY TEXT="#FFFFFF" LINK="#66EEAA" VLINK="#66EEAA" ALINK="#AA33FF"
+BGCOLOR="#000000">
+
+<STYLE>
+	<!--
+	A:hover{color:#FFDD44;}
+	A:link{text-decoration: none}
+	A:visited{text-decoration:none}
+	-->
+</STYLE>
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=0 WIDTH=100% ALIGN="CENTER">
+	<TR>
+		<TD WIDTH=100% ALIGN=CENTER>
+			<IMG SRC="images/any_hosting-s.jpg" alt="Any
+Hosting Services - Namodn">
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=100% ALIGN=CENTER>
+			<HR>
+			<A HREF="http://www.namodn.com/" target="_top" onmouseover="activate('image1_');self.status='Namodn';return false" onmouseout="deactivate('image1_');self.status='Namodn';return false"><IMG SRC="images/ne1.jpg" alt="Namodn" NAME="image1_" border=0></A><BR>
+			<A HREF="http://www.ArtWritingMusic.com/" target="_top" onmouseover="activate('image2_');self.status='Art Writing Music Gallery';return false" onmouseout="deactivate('image2_');self.status='Art Writing Music Gallery';return false"><IMG SRC="images/og1.jpg" alt="Online Gallery" NAME="image2_" border=0></A><BR>
+			<A HREF="http://www.namodn.com/consulting.html" target="control2" onmouseover="activate('image3_');self.status='Namodn Computer Consulting';return false" onmouseout="deactivate('image3_');self.status='Namodn Computer Consulting';return false"><IMG SRC="images/cc1.jpg" alt="Computer Consulting" NAME="image3_" border=0></A><BR>
+			<A HREF="index-right.html"target="control2" onmouseover="activate('image4_');self.status='Any Hosting Services';return false" onmouseout="deactivate('image4_');self.status='Any Hosting Services';return false"><IMG SRC="images/dwh1.jpg" alt="Domain & Web Hosting" NAME="image4_" border=0></A><BR>
+			<A HREF="http://communityprojects.org" target="control2" onmouseover="activate('image5_');self.status='GNU/Linux';return false" onmouseout="deactivate('image5_');self.status='GNU/Linux';return false"><IMG SRC="images/lx1.jpg" alt="GNU/Linux Section" NAME="image5_" border=0></A><BR>
+			<A HREF="http://www.namodn.com/links.html" target="control2" onmouseover="activate('image6_');self.status='Recommended Links';return false" onmouseout="deactivate('image6_');self.status='Recommended Links';return false"><IMG SRC="images/l1.jpg" alt="Links" NAME="image6_" border=0></A><BR>
+			<HR>
+		</TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
