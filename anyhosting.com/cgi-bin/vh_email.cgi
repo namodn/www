@@ -15,6 +15,7 @@ Content-Type: text/html
     <link type="text/css" title="normal" rel="stylesheet" href="/normal.css">
   </head>
   <body>
+  <div id="main">
     <h1>AnyHosting Services</h1>
     <h2>Registration receieved.</h2>
 END
@@ -62,6 +63,7 @@ cat - << \END
     <a href="/contact.html">Contact us</a></p>
     <p>Copyright &copy; 2004 AnyHosting Services<br>
     All rights reserved.</p>
+  </div>
   </body>
 </html>
 END
