@@ -1,5 +1,6 @@
 <?php
-function create($dirname){
+function create($domain){
+  $dirname = "data/".$domain;
   $filename = "/var/www/DOMAINS.list";
   $handle = fopen($filename,"r");
   $contents = fread($handle,filesize($filename));
@@ -7,7 +8,7 @@ function create($dirname){
   $lines = explode("\n", $contents);
   $isValid = false;
   foreach($lines as $l){
-    if ($l == $dirname){
+    if ($l == $domain){
       $isValid = true;
     }
   }
@@ -23,7 +24,7 @@ function create($dirname){
 }
 function write($domain,$name,$object){
   create($domain);
-  $filename = "$domain/$name.obj";
+  $filename = "data/$domain/$name.obj";
   $blob = serialize($object);
   $handle = fopen($filename,"w");
   fwrite($handle, $blob);
@@ -32,7 +33,7 @@ function write($domain,$name,$object){
 };
 function read($domain,$name){
   create($domain);
-  $filename = "$domain/$name.obj";
+  $filename = "data/$domain/$name.obj";
   if(is_readable($filename)){
     $handle = fopen($filename,"r");
     $object = unserialize(fread($handle,filesize($filename)));
