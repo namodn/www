@@ -5,7 +5,9 @@
         <p>
 	    <form action="/cgi-bin/qaac.cgi" method="post" name="approval">
 	        <font size="9">
-	        <TMPL_VAR NAME=USER> ( <TMPL_VAR NAME=FULLNAME> )
+		<input type="checkbox" name="<TMPL_VAR NAME=USER>" value="selected">
+	            <TMPL_VAR NAME=USER> ( <TMPL_VAR NAME=FULLNAME> )
+		</input>
 	        <br />
 		</font>
 	        <input name="action" type=submit value="Approve">

@@ -7,6 +7,13 @@ use CGI qw(:standard);
 
 # HTML template module
 use HTML::Template;
+use DBI;
+
+# database variable settings
+my $driver = 'Pg';
+my $data_source = 'dbi:Pg:dbname=www-data';
+my $db_user = 'www-data';
+my $db_pwd = '';
 
 my $template_dir = "/var/www/artwritingmusic.com/cgi-bin/templates/";
 my $admin_email = 'robert@namodn.com';
@@ -22,13 +29,25 @@ sub main {
         &index();        
     }
     elsif (param('action') eq 'Approve') {
-        &approved();
-	&index();
-	print "$user Approved.";
+        if (! param("$user")) {
+	    &index();
+	    print "No users selected.";
+	}
+    elsif (param("$user") eq 'selected') { 
+            &approved();
+	    &index();
+	    print "$user Approved.";
+	}
     }
     elsif (param('action') eq 'Deny') {
-	&index();
-	print "No.";
+        if (! param("$user")) {
+	    &index();
+	    print "No users selected.";
+        }
+        else {
+	    &index();
+	    print "No.";
+	}
     }
 }
 
