@@ -8,41 +8,35 @@
 SRC=index-left.html>
 <FRAME NORESIZE MARGINHEIGHT="0" MARGINWIDTH="0" NAME="control2" 
 SRC=index-right.html>
-<NOFRAMES>Your browser doesn't support frames... Oh well. Loading old version.
+<NOFRAMES>
 
 <HTML>
 <HEAD>
-<SCRIPT LANGUAGE=JAVASCRIPT>
-
-        image1 = new Image
+<SCRIPT LANGUAGE="Javascript" TYPE="text/javascript">
+ 	image1 = new Image
         image2 = new Image
-        image1.src = 'icons/ne2.jpg'
-        image2.src = 'icons/ne1.jpg'
-
+        image1.src = 'images/namodn_on.gif'
+        image2.src = 'images/namodn_off.gif'
         image3 = new Image
         image4 = new Image
-        image3.src = 'icons/og2.jpg'
-        image4.src = 'icons/og1.jpg'
-
+        image3.src = 'images/onlinegallery_on.gif'
+        image4.src = 'images/onlinegallery_off.gif'
         image5 = new Image
         image6 = new Image
-        image5.src = 'icons/cc2.jpg'
-        image6.src = 'icons/cc1.jpg'
-
+        image5.src = 'images/consulting_on.gif'
+        image6.src = 'images/consulting_off.gif'
         image7 = new Image
         image8 = new Image
-        image7.src = 'icons/dwh2.jpg'
-        image8.src = 'icons/dwh1.jpg'
-
+        image7.src = 'images/webhosting_on.gif'
+        image8.src = 'images/webhosting_off.gif'
         image9 = new Image
-	image10 = new Image
-        image9.src =  'icons/lx2.jpg'
-	image10.src = 'icons/lx1.jpg'
-
+        image10 = new Image
+        image9.src =  'images/community_on.gif'
+        image10.src = 'images/community_off.gif'
         image11 = new Image
         image12 = new Image
-        image11.src =  'icons/l2.jpg'
-        image12.src =  'icons/l1.jpg'
+        image11.src =  'images/links_on.gif'
+        image12.src =  'images/links_off.gif'
 </SCRIPT>
 
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
@@ -69,7 +63,7 @@ world to view in the form of our Online Gallery.">
 <TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=600 ALIGN=CENTER>
 	<TR>
 		<TD WIDTH="170" VALIGN=TOP ALIGN=LEFT>
-			<IMG SRC="icons/namodn_enterprises.gif" alt="Namodn"> 
+			<IMG SRC="images/namodn.jpg" alt="Namodn"> 
 			<!-- WIDTH=199 HEIGHT=171 -->
 		</TD>
 
@@ -91,29 +85,29 @@ world to view in the form of our Online Gallery.
 		<CENTER>
 		<HR>
 <A HREF="http://namodn.com/" onmouseover="document.one.src=image1.src"
- onmouseout="document.one.src=image2.src"><IMG SRC="icons/ne1.jpg" 
+ onmouseout="document.one.src=image2.src"><IMG SRC="images/namodn_off.gif" 
  alt="Namodn" NAME="one" border=0></A><BR>
 
 <A HREF="http://ArtWritingMusic.com/" onmouseover="document.two.src=image3.src"
- onmouseout="document.two.src=image4.src"> <IMG SRC="icons/og1.jpg"
+ onmouseout="document.two.src=image4.src"> <IMG SRC="images/onlinegallery_off.gif"
  alt="Online Gallery" NAME="two" border=0></A><BR>
 
 <A HREF="http://namodn.com/consulting.html" 
  onmouseover="document.three.src=image5.src" 
- onmouseout="document.three.src=image6.src"><IMG SRC="icons/cc1.jpg"
+ onmouseout="document.three.src=image6.src"><IMG SRC="images/consulting_off.gif"
  alt="Computer Consulting" NAME="three" border=0></A><BR>
 
 <A HREF="http://www.AnyHosting.com"
 onmouseover="document.four.src=image7.src" 
- onmouseout="document.four.src=image8.src"><IMG SRC="icons/dwh1.jpg" 
+ onmouseout="document.four.src=image8.src"><IMG SRC="images/webhosting_off.gif" 
  alt="Domain & Web Hosting" NAME="four" border=0></A><BR>
 
 <A HREF="http://communityprojects.org" onmouseover="document.five.src=image9.src" 
- onmouseout="document.five.src=image10.src"><IMG SRC="icons/lx1.jpg" 
+ onmouseout="document.five.src=image10.src"><IMG SRC="images/community_off.gif" 
  alt="GNU/Linux Section" NAME="five" border=0></A><BR>
 
 <A HREF="http://namodn.com/links.html" onmouseover="document.six.src=image11.src" 
-onmouseout="document.six.src=image12.src"><IMG SRC="icons/l1.jpg" 
+onmouseout="document.six.src=image12.src"><IMG SRC="images/links_off.gif" 
 alt="Links" NAME="six" border=0></A><BR>
 		<HR>
 		</CENTER>
@@ -121,9 +115,16 @@ alt="Links" NAME="six" border=0></A><BR>
 
 		<TD WIDTH="430" ALIGN=RIGHT COLSPAN=2>
 		<CENTER>
-<A HREF="http://ArtWritingMusic.com"><IMG SRC="icons/awm-s.jpg" 
-height="150" width="146" alt="Namodn Online Gallery - ArtWritingMusic.com"
-border=0></A>
+		<A HREF="http://ArtWritingMusic.com" target="_top">
+		<IMG SRC="images/awm-s.jpg" alt="Namodn
+		Online Gallery - ArtWritingMusic.com" border=0></A>
+		&nbsp &nbsp &nbsp &nbsp
+		&nbsp &nbsp &nbsp &nbsp
+		&nbsp &nbsp &nbsp
+		<A HREF="http://AnyHosting.com" target="_top">
+		<IMG SRC="images/any_hosting-s.jpg" alt="
+		Any Hosting Services - AnyHosting.com" border=0">
+
 		</CENTER>
 		</TD>
 	</TR>
@@ -138,8 +139,8 @@ border=0></A>
 		<CENTER>
 		<FONT SIZE=2>
 		<P><B>
-		<I>Web Design by <A HREF="http://nick.namodn.com/">Nick Jennings</A>.</I><BR>
-		<I>Copyright &copy; 1999 <A HREF="http://www.namodn.com">Namodn</A>. All rights reserved.</I>
+		<I>Web Design by <A HREF="http://nick.namodn.com/">Nick Jennings</A> and <A HREF="http://robert.namodn.com/">Rob Helmer.</I><BR>
+		<I>Copyright &copy; 2002 <A HREF="http://www.namodn.com">Namodn</A>. All rights reserved.</I>
 		</P></B>
 		</FONT>
 		</CENTER>
@@ -148,14 +149,6 @@ border=0></A>
 		<TD WIDTH=600 COLSPAN=2>
 		<HR WIDTH=70% SIZE=3>
 		&nbsp<BR>
-		</TD>
-	</TR>
-	<TR>
-		<TD WIDTH="600" VALIGN="BOTTOM" COLSPAN=2>
-		<CENTER>
-		<P>
-		<A HREF="http://apache.org"><IMG SRC="icons/apache_pb.gif" alt="& Apache" border=0></A>
-		</CENTER>
 		</TD>
 	</TR>
 </TABLE>
