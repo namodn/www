@@ -1,6 +1,0 @@
-AuthUserFile /html/hosting/services/bifictional.com/.htpasswd
-AuthName "Bifictional Girl"
-AuthType Basic
-<Limit GET>
-require valid-user
-</Limit> 
