@@ -183,12 +183,14 @@ main (int argc, char *argv[])
    * Handle CGI data
    */
 
-  ptr = strtok (data, "&");
-  while (ptr) {
-    HandleString (ptr);
-    ptr = strtok (NULL, "&");
+  if (data) {
+    ptr = strtok (data, "&");
+    while (ptr) {
+      HandleString (ptr);
+      ptr = strtok (NULL, "&");
+    }
+    free (data);
   }
-  free (data);
 
   /*
    * Add Path info

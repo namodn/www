@@ -15,10 +15,12 @@ END
 # process form data
 #
 #eval `/usr/usersb2/w93/fp/CGI/ProcCGIInput`
-eval `/usr/local/www//cgi-bin/proccgi`
+#eval `/usr/local/www//cgi-bin/proccgi`
+eval `/var/www/anyhosting.com/cgi-bin/proccgi`
 #
 # Compose email message
 #
+echo $FORM_name
 (
   echo "From: $FORM_name <$FORM_email>"
   echo "Subject: [Virtual Domain Subscriber]"
