@@ -1,5 +1,5 @@
 <?php  
-  $name = 'Billing Administration';
+  $name = 'Email Administration';
   include_once('header.inc');
   $aliases = "/etc/exim-aliases"; 
 
