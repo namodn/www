@@ -1,5 +1,6 @@
 <?php
   $name = 'Billing Administration';
+  include_once('authcheck.inc');
   include_once('header.inc');
 ?>
     <ul>

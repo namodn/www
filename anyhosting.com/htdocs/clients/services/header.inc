@@ -1,13 +1,3 @@
-<?php
-  include_once('io.inc');
-  $aliases = "/etc/exim-aliases"; 
-  $domain = $_REQUEST['domain'];
-
-  if(!isValid($domain)){
-    echo "Invalid domain ".$domain;
-    exit;
-  }
-?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
 

@@ -1,8 +1,24 @@
 <?php
-  $name = 'Administration';
+
   include_once('header.inc');
   include_once('io.inc');
   include_once('billing.inc');
+
+  $name = 'Administration';
+
+  if(empty($_REQUEST['domain'])){
+    // list all domains first for admin screen
+    if($handle = opendir('./data')){
+      while(false !== ($file = readdir($handle))){
+        if($file == '.' || $file == '..' || $file == '.empty') continue;
+        echo '<a href="?domain='.$file.'">'.$file.'</a><br>';
+      }
+      closedir($handle);
+    }
+    exit;
+  }
+
+  include_once('authcheck.inc');
 
   function saveAll($domain,$currentCycle,$billingContact,$billingHistory){
     include_once('io.inc');

@@ -1,5 +1,6 @@
 <?php  
   $name = 'Email Administration';
+  include_once('authcheck.inc');
   include_once('header.inc');
   $aliases = "/etc/exim-aliases"; 
 
