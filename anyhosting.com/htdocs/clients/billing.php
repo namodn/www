@@ -39,22 +39,34 @@
     </p>
     <h4>Billing history:</h4>
     <p>
-    Received Period Fee Status Amount Type<br>
+      <pre>
 <?php
   }
   $received = billingHistory($domain);
   foreach($received as $r){
 ?>
-    <?=$r['date']?>
-    <?=$r['period']?>
-    <?=$r['fee']?>
-    <?=$r['status']?>
-    <?=$r['total']?>
-    <?=$r['type']?>
-    <br>
+Paid:  <?=$r['paid']?>
+ 
+Due:   <?=$r['dueDate']?>
+ 
+Total: <?=$r['total']?>
+ 
 <?php
+    foreach($r['item'] as $i){
+?>
+        Description: <?=$i['description']?>
+
+        Time:        <?=$i['time']?>
+
+        Price:       <?=$i['price']?>
+
+        Total:       <?=$i['total']?>
+
+<?php
+    }
   }
 ?>
+      </pre>
     <p><a href="/contact.html">Contact us</a><br>
     Copyright © 2004 AnyHosting Services<br>
     All rights reserved.</p>

@@ -10,6 +10,12 @@
   if (empty($currentCycle)){
     $currentCycle = array();
   }
+  if (empty($billingContact)){
+    $billingContact = array();
+  }
+  if (empty($billingHistory)){
+    $billingHistory = array();
+  }
 
   if (!empty($_REQUEST['paid'])){
     $paidCycle = key($_REQUEST['paid']['cycle']);
@@ -49,24 +55,52 @@
     }
   } elseif (!empty($_REQUEST['save'])){
     $currentCycle = $_REQUEST['cycle'];
-    foreach(array_keys($currentCycle) as $cycles){
-      if(empty($currentCycle[$cycles]['item'])){
-        $currentCycle[$cycles]['item'] = array();
+    if(!empty($currentCycle)){
+      foreach(array_keys($currentCycle) as $cycles){
+        if(empty($currentCycle[$cycles]['item'])){
+          $currentCycle[$cycles]['item'] = array();
+        }
       }
+      write($domain,'currentCycle',$currentCycle);
+      $currentCycle = read($domain,'currentCycle');
     }
+    if(!empty($_REQUEST['billingContact'])){
+      $billingContact = array($_REQUEST['billingContact']);
+      write($domain,'billingContact',$billingContact);
+      $billingContact = read($domain,'billingContact');
+    }
+  } elseif (!empty($_REQUEST['paid'])){
+    $cycles = key($_REQUEST['paid']['cycle']);
+    array_push($billingHistory, $currentCycle[$cycles]);
+    unset($currentCycle[$cycles]);
     write($domain,'currentCycle',$currentCycle);
     $currentCycle = read($domain,'currentCycle');
+    write($domain,'billingHistory',$billingHistory);
+    $billingHistory = read($domain,'billingHistory');
   }
 
 ?>
     <form name="admin" method="POST">
     <input type="hidden" name="domain" value="<?=$domain?>">
     <pre>
+<?php
+  if(!empty($billingContact)) foreach($billingContact as $b){
+?>
 <input type="submit" value="Save All" name="save">
+Name:    <input type="text" name="billingContact[name]" value="<?=$b['name']?>">
+Street:  <input type="text" name="billingContact[street]" value="<?=$b['street']?>">
+City:    <input type="text" name="billingContact[city]" value="<?=$b['city']?>">
+State:   <input type="text" name="billingContact[state]" value="<?=$b['state']?>">
+Zipcode: <input type="text" name="billingContact[zip]" value="<?=$b['zip']?>">
+Phone:   <input type="text" name="billingContact[phone]" value="<?=$b['phone']?>">
+Email:   <input type="text" name="billingContact[email]" value="<?=$b['email']?>">
 <input type="submit" value="Add Cycle" name="addCycle">
+<?php
+  }
+?>
 
 <?php
-  foreach(array_keys($currentCycle) as $cycles){
+  if(!empty($currentCycle)) foreach(array_keys($currentCycle) as $cycles){
     $c = $currentCycle[$cycles];
 ?>
 Due date:    <input type="text" name="cycle[<?=$cycles?>][dueDate]" 
@@ -101,39 +135,13 @@ Paid on: <input type="text" name="cycle[<?=$cycles?>][paid]"
 ?>
 <?php
   }
-  print_r($currentCycle);
+  //print_r($currentCycle);
 ?>
     </pre>
     </form>
 <?php
 
 
-/*
-  // billingContact
-  $b = array(
-  'name' => 'Robert Helmer',
-  'street' => '532 Liberty Street',
-  'city' => 'El Cerrito',
-  'state' => 'CA',
-  'zip' => '94530',
-  'phone' => '510-555-1212',
-  'email' => 'rhelmer@anyhosting.com',
-  );
-  $billingContact = array($b);
-  write('foxtailsomersault.com','billingContact',$billingContact);
-
-  // billingHistory
-  $r1 = array(
-    'date' => '09/01/2001',
-    'period' => '12 months',
-    'fee' => '$5/mo',
-    'status' => 'PAID',
-    'total' => '$60.00',
-    'type' => 'Check'
-  );
-  $billingHistory = array($r1);
-  write('foxtailsomersault.com','billingHistory',$billingHistory);
-*/
    
   include_once('footer.inc');
 ?>
