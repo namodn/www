@@ -1,7 +1,3 @@
-Subject: QuestionArt.com
-
-Hi, <TMPL_VAR NAME=USER>!
- 
   We have received your request for a web page on
 http://www.QuestionArt.com and it has been
 accepted!

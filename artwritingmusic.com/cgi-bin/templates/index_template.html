@@ -3,9 +3,13 @@
     <body>
         <h1><TMPL_VAR NAME=TITLE></h1>
         <p>
-	    <form action="/cgi-bin/questionart.cgi" method="put" name="test">
-	        <input name="Approve" type=submit value="Approve">
-	        <input name="Deny" type=submit value="Deny">
+	    <form action="/cgi-bin/qaac.cgi" method="post" name="approval">
+	        <font size="9">
+	        <TMPL_VAR NAME=USER> ( <TMPL_VAR NAME=FULLNAME> )
+	        <br />
+		</font>
+	        <input name="action" type=submit value="Approve">
+	        <input name="action" type=submit value="Deny">
 	    </form>
 	</p>
     </body>
