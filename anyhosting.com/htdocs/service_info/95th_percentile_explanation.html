@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>95th Percentile Explanation</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<p>
+
+<font size="+3">95th Percentile Explanation</font>
+</center>
+
+<p><hr><p>
+
+<center><img src="95eg.gif"></center>
+
+What is the 95th percentile, and why is it useful in measuring bandwidth?
+<p>
+
+The 95th percentile is the smallest number that is greater that 95% of the numbers in a given set. The reason this
+statistic is so useful in measuring data throughput is that is gives a very accurate picture of the cost of the
+bandwidth. Here's an example. Suppose an ISP sells you a T1 line, but you're only using it to access the web. Even
+though you might frequently download very large files (filling the pipe) your cost to the ISP is negligible,
+because your usage is intermittent. A single T3 connection to the backbone could easily support hundreds of such
+downstream customers, and never become saturated. As another example, suppose you are hosting a very busy web
+site that half-way fills your T1 for several hours every day. This type of bandwidth is more expensive, because
+your ISP can't oversell their connection to the backbone as effectively. The important thing to realize is that it
+doesn't cost your ISP anything to sell you a pipe of any particular size - it is the sustained rate of data
+transfer that costs them money. The sum of the 95th percentile usage of all of an ISP's customers predicts the
+peak amount of backbone traffic that the ISP will incur (in a given direction). <p>
+
+Here are some examples. ISPs must charge for bandwidth by one of three means:<p>
+
+<ol>
+
+<li>Sell a flat rate, possibly bandwidth limited connection, and try to sell to customers whose usage patterns are
+not so intese. Nearly all DSL providers do this. The customers like it because they don't have to worry about how
+much bandwidth they use, and ISPs like it because it simplifies billing, and they make more money as long as
+they have plenty of low-usage customers. The problem, particularly if the ISP is selling very fast connections, is
+that the ISP can become overwhelmed by even a small number of high-usage customers. Even residential customers can
+be such high-usage clients, thanks to recently popular services such as peer-to-peer file sharing.
+
+<li>Sell a fast connection (eg 100Mbit Ethernet, which is inexpensive) and charge for the volume of data transfer - eg
+number of Gigabytes per month. This model works great for web sites, which almost always generate traffic in a
+predictable bell curve. However, it severely penalizes customers who use bandwidth intermittently. For example,
+suppose a customer runs an automated off-site backup every night.  This brief usage spurt costs the ISP almost
+nothing. Although the recurring sustained data rate is low, the customer gets charged for a huge amount of bandwidth.
+
+<li>Sell a fast connection and bill by 95th percentile. By now this should make sense - it's a fair system where
+everybody pays for what they get. The advantage to the customer is that they get the performance of a
+high-speed connection, while paying only for their actual usage. ISPs like it because they don't have to worry
+about high-usage customers upsetting their overselling ratios. 
+
+</ol>
+
+<p>
+
+Irrespective of billing concerns, the 95th percentile is a very interesting and useful figure. Bottom line is it
+tells you how much of your connection you're really using (and really need).
+</p>
+
+</body>
+</html>
