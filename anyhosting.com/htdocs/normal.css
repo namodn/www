@@ -1,4 +1,2 @@
-body {
-    margin: 30px;
-}
-
+/* Hidden from old-school browsers */
+@import url("normal-style.css");
