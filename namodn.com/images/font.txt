@@ -1,0 +1,10 @@
+charter
+16 pixels
+Foundry: bitstream
+Weight: bold
+Slant: r
+Set width: normal
+Spacing: p
+Registry: iso8859
+Encoding: 1
+Border: 0
