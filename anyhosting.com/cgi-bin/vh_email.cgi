@@ -53,7 +53,7 @@ if [ $? = "0" ] ; then
         echo "We will return your email as soon as possible."
 	echo "<BR>"
 	echo "<P></P>" 
- 	echo "If you have comments or questions about this service, send email to <A HREF="mailto:admin@anyhosting.com.com">admin@anyhosting.com</A>"
+ 	echo "If you have comments or questions about this service, send email to <A HREF="mailto:admin@anyhosting.com">admin@anyhosting.com</A>"
 	echo "<BR>"
 	echo "<HR>"
 else
