@@ -88,7 +88,7 @@ Total: <?=$r['total']?>
   }
 ?>
       </pre>
-    <p><a href="/contact.html">Contact us</a><br>
+    <p><a href="/contact">Contact us</a><br>
     Copyright © 2004 AnyHosting Services<br>
     All rights reserved.</p>
   </div>
