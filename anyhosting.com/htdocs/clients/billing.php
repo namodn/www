@@ -7,7 +7,7 @@
 <?php
 
   $currentCycle = currentCycle($domain);
-  foreach($currentCycle as $c){
+  if (!empty($currentCycle)) foreach($currentCycle as $c){
 ?>
     <p>Payment Due: <strong><?=$c['dueDate']?></strong><br>
 <?php
@@ -24,7 +24,7 @@
   }
   
   $billingContact = billingContact($domain);
-  foreach($billingContact as $b){
+  if (!empty($billingContact)) foreach($billingContact as $b){
 ?>
     <h4>Billing contact:</h4>
     <p>
@@ -43,7 +43,7 @@
 <?php
   }
   $received = billingHistory($domain);
-  foreach($received as $r){
+  if(!empty($received)) foreach($received as $r){
 ?>
 Paid:  <?=$r['paid']?>
  

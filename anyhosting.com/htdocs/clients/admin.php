@@ -1,11 +1,19 @@
 <?php
-  include_once('io.inc');
   $name = 'Administration';
   include_once('header.inc');
+  include_once('io.inc');
+  include_once('billing.inc');
 
-  $currentCycle = read($domain,'currentCycle');
-  $billingContact = read($domain,'billingContact');
-  $billingHistory = read($domain,'billingHistory');
+  function saveAll($domain,$currentCycle,$billingContact,$billingHistory){
+    include_once('io.inc');
+    write($domain,'currentCycle',$currentCycle);
+    write($domain,'billingContact',$billingContact);
+    write($domain,'billingHistory',$billingHistory);
+  }
+
+  $currentCycle = currentCycle($domain);
+  $billingContact = billingContact($domain);
+  $billingHistory = billingHistory($domain);
 
   if (empty($currentCycle)){
     $currentCycle = array();
@@ -27,8 +35,6 @@
       'total' => null,
     );
     array_push($currentCycle, $blank);
-    write($domain,'currentCycle',$currentCycle);
-    $currentCycle = read($domain,'currentCycle');
   }
   if (!empty($_REQUEST['add'])){
     $addCycle = key($_REQUEST['add']['cycle']);
@@ -39,19 +45,13 @@
       'total' => null,
     );
     array_push($currentCycle[$addCycle]['item'], $blank);
-    write($domain,'currentCycle',$currentCycle);
-    $currentCycle = read($domain,'currentCycle');
   } elseif (!empty($_REQUEST['remove'])){
     $removeCycle = key($_REQUEST['remove']['cycle']);
     if($_REQUEST['remove']['cycle'][$removeCycle] == "Remove Cycle"){
       unset($currentCycle[$removeCycle]);
-      write($domain,'currentCycle',$currentCycle);
-      $currentCycle = read($domain,'currentCycle');
     }else{
       $removeItem = key($_REQUEST['remove']['cycle'][$removeCycle]['item']);
       unset($currentCycle[$removeCycle]['item'][$removeItem]);
-      write($domain,'currentCycle',$currentCycle);
-      $currentCycle = read($domain,'currentCycle');
     }
   } elseif (!empty($_REQUEST['save'])){
     $currentCycle = $_REQUEST['cycle'];
@@ -61,30 +61,24 @@
           $currentCycle[$cycles]['item'] = array();
         }
       }
-      write($domain,'currentCycle',$currentCycle);
-      $currentCycle = read($domain,'currentCycle');
     }
     if(!empty($_REQUEST['billingContact'])){
       $billingContact = array($_REQUEST['billingContact']);
-      write($domain,'billingContact',$billingContact);
-      $billingContact = read($domain,'billingContact');
     }
   } elseif (!empty($_REQUEST['paid'])){
     $cycles = key($_REQUEST['paid']['cycle']);
     array_push($billingHistory, $currentCycle[$cycles]);
     unset($currentCycle[$cycles]);
-    write($domain,'currentCycle',$currentCycle);
-    $currentCycle = read($domain,'currentCycle');
-    write($domain,'billingHistory',$billingHistory);
-    $billingHistory = read($domain,'billingHistory');
   }
 
+  saveAll($domain,$currentCycle,$billingContact,$billingHistory);
 ?>
     <form name="admin" method="POST">
     <input type="hidden" name="domain" value="<?=$domain?>">
     <pre>
 <?php
-  if(!empty($billingContact)) foreach($billingContact as $b){
+  $b = null;
+  foreach($billingContact as $b){}
 ?>
 <input type="submit" value="Save All" name="save">
 Name:    <input type="text" name="billingContact[name]" value="<?=$b['name']?>">
@@ -95,9 +89,6 @@ Zipcode: <input type="text" name="billingContact[zip]" value="<?=$b['zip']?>">
 Phone:   <input type="text" name="billingContact[phone]" value="<?=$b['phone']?>">
 Email:   <input type="text" name="billingContact[email]" value="<?=$b['email']?>">
 <input type="submit" value="Add Cycle" name="addCycle">
-<?php
-  }
-?>
 
 <?php
   if(!empty($currentCycle)) foreach(array_keys($currentCycle) as $cycles){
@@ -137,7 +128,32 @@ Paid on: <input type="text" name="cycle[<?=$cycles?>][paid]"
   }
   //print_r($currentCycle);
 ?>
-    </pre>
+<h4>Billing History</h4>
+<?php
+  foreach($billingHistory as $r){
+?>
+Paid:  <?=$r['paid']?>
+ 
+Due:   <?=$r['dueDate']?>
+ 
+Total: <?=$r['total']?>
+ 
+<?php
+    if(!empty($r['item'])) foreach($r['item'] as $i){
+?>
+        Description: <?=$i['description']?>
+
+        Time:        <?=$i['time']?>
+
+        Price:       <?=$i['price']?>
+
+        Total:       <?=$i['total']?>
+
+<?php
+    }
+  }
+?>
+      </pre>
     </form>
 <?php
 
