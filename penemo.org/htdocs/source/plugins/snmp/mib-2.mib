@@ -1,0 +1,158 @@
+#!/usr/bin/perl -w
+#
+#  pugins/mib-2.mib 
+#  Copyright (C) 2000 Nick Jennings
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+#  This program is developed and maintained by Nick Jennings.
+# Contact Information:
+#
+#    Nick Jennings                 nick@namodn.com
+#    PMB 377                       http://nick.namodn.com
+#    4096 Piedmont Ave.
+#    Oakland, CA 94611
+#
+#  penemo homepage : http://www.communityprojects.org/apps/penemo/
+#
+#
+
+
+use lib '/usr/local/share/penemo/modules/';
+use penemo;
+use strict;
+my $mib = 'mib-2';
+
+unless (@ARGV) {
+	print "params: \n";
+	print "		check = returns a 0, for use internally.\n";
+	print "		<ip> <community> <full path to snmpwalk>.\n"; 
+	exit;
+}
+
+if (($ARGV[0] eq 'check') && (! $ARGV[1])) { exit 1; }
+elsif (! $ARGV[1]) { penemo::core->notify_die("$mib.mib: bad parameters.\n"); }
+
+chomp @ARGV;
+my $ip = $ARGV[0];
+my $community = $ARGV[1];
+my $snmpwalk = $ARGV[2];
+my %snmp;
+
+# do an snmpwalk
+#
+
+my @walk = `$snmpwalk $ip $community mib-2`;
+
+if ($#walk <= '1') {
+	print "$mib.mib: agent didn't respond to poll.\n";
+	exit;
+}
+else { 
+	print "--agentdump\n";
+	print @walk; 
+}
+
+
+foreach my $line (@walk) {
+	chomp $line;
+	my ($obj, $value) = split(' = ', $line);
+	$snmp{$ip}{'mib2'}{$obj} = $value;
+}
+
+
+my @miberrors = ();	# stack of errors in snmp mib
+# print html data
+
+my $ok_light = penemo::core->html_image('agent', 'ok');
+my $bad_light = penemo::core->html_image('agent', 'bad');
+
+print "--htmldump\n";
+
+#
+# System
+#
+print "<FONT COLOR=\"#AA22AA\">System Name: </FONT>";
+#   print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysName.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System Description: </FONT>";
+#   print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysDescr.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System Contact: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysContact.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System UpTime (snmpd): </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysUpTime.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System Location: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysLocation.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System ObjectID: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$snmp{$ip}{'mib2'}{'system.sysObjectID.0'}</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+print "&nbsp;<BR>\n";
+
+#
+# Interfaces
+#
+my $ifnum = $snmp{$ip}{'mib2'}{'interfaces.ifNumber.0'};
+
+print "<FONT COLOR=\"#BBBB66\">Number of Interfaces: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$ifnum</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+
+for (my $c = '1'; $c <= $ifnum; $c++) {
+   print "<FONT COLOR=\"#AA22AA\">Interface: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">$c</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Description: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifDescr.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Type: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifType.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Administrative Status: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifAdminStatus.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifOperStatus.' . $c} eq 'up(1)') {
+      if ($snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifAdminStatus.' . $c} eq 'up(1)') {
+         print "$ok_light\n";
+      }
+      else {
+         print "$bad_light\n";
+         my $if = $snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifDescr.' . $c};
+         push @miberrors, "$if is up, and it apparently shouldnt be on IP: $ip\n";
+      }
+   }
+   else {
+      if ($snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifAdminStatus.' . $c} eq 'up(1)') {
+         print "$bad_light\n";
+         my $if = $snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifDescr.' . $c};
+         push @miberrors, "$if is down, and it's not suppost to be on IP: $ip\n";
+      }
+   }
+
+   print "<FONT COLOR=\"#AA22AA\">Operational Status: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifOperStatus.' . $c}</FONT><BR>\n";
+
+   #print "<FONT COLOR=\"#4422CC\">In Errors: </FONT>\n";
+   #print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifInErrors.' . $c}<BR>\n";
+   #print "<FONT COLOR=\"#4422CC\">Out Errors: </FONT>\n";
+   #print "$snmp{$ip}{'mib2'}{'interfaces.ifTable.ifEntry.ifOutErrors.' . $c}<BR>\n";
+
+   print "&nbsp;<BR>\n";
+   print "&nbsp;<BR>\n";
+}
+
+if (@miberrors) {
+	print "--miberrors\n";
+	print "@miberrors";
+}

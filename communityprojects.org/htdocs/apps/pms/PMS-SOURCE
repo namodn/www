@@ -1,0 +1,431 @@
+#!/usr/bin/perl -w
+#
+#  PMS v1.0.0	(Perl Mail Sorter)
+#  Copyright (C) 2000  Nick Jennings
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+#  This program is developed and maintained by Nick Jennings.
+# Contact Information:
+#
+#    Nick Jennings                 nick@namodn.com
+#    PMB 377                       http://nick.namodn.com
+#    4096 Piedmont Ave.
+#    Oakland, CA 94611
+#
+#  PMS homepage : http://www.communityprojects.org/apps/pms/
+#
+##############################################################################
+#
+# $Id$
+#
+##############################################################################
+
+use strict;
+use Mail::Header;
+
+#
+# Config Vars
+#
+my $pmsrc = "$ENV{'PWD'}/.pmsrc";		# User Config File
+my $debug = '';					# Debug Flag
+my $debug_level = '1';				# Debug Level
+my $debug_file = "$ENV{'PWD'}/.pms-debug";	# Debug Log File
+my $debug_mail_file = "$ENV{'PWD'}/.pms-debug-mesgs";	# Debug Mail File
+my @valid_debug_levels = (1, 2, 3);		# Valid Debug Levels
+my $spool = '/var/spool/mail';			# Default Mailbox
+while ()
+{
+        my @tmp = split( '/', "$ENV{'PWD'}" );
+        $spool = "$spool/$tmp[2]";		# Spool Default
+        last;
+}
+my @command = ();	# Full command line (To be split up later)
+my @mailbox = ();	# Full path to mailbox to save message in
+my @pattern = ();	# Pattern to search for
+my @place = ();		# Place to search (Header name, or 'B' for body)
+
+#
+# Debug Check
+#
+if (@ARGV)
+{
+	if ($ARGV[0] eq '-d')
+	{
+		$debug = 'true';
+		my @test = grep{ $_ eq $ARGV[1] } @valid_debug_levels;
+
+		if ($test[0])	{ $debug_level = $test[0]; }
+		else
+		{
+			$debug_level = '1';
+			debug('1', "Debug level $ARGV[1] not valid, defaulting to level: $debug_level");
+		}
+		debug('1', "\n*** PMS Started - Debug Level: $debug_level ***\n");
+	}
+}
+
+
+############# Config File (Read & Parse) #################
+get_rc();
+command_split();
+##########################################################
+
+
+########
+# DEBUG
+#
+debug('1', "-----");
+debug('1', "$#command \@command");
+debug('2', "@command");
+debug('2', "-----");
+debug('1', "$#mailbox \@mailbox");
+debug('2', "@mailbox");
+debug('2', "-----");
+debug('1', "$#pattern \@pattern");
+debug('2', "@pattern");
+debug('2', "-----");
+debug('1', "$#place \@place"); 
+debug('2', "@place");
+debug('1', "-----");
+
+
+#
+# If Place/Pattern/Mailbox Aren't Equale, Abort - Errror in RC File
+#
+if ($#mailbox != $#pattern & $#mailbox != $#place) 
+{ error("Unrecoverable error in $pmsrc - \$#mailbox, \$#pattern, & \$#place are not all equal"); }
+
+
+########
+# DEBUG
+#
+debug('1', "Vars:");
+debug('1', "-----");
+debug('1', "PMSRC: $pmsrc\nDEBUG: $debug\nDEBUG_LEVEL: $debug_level");
+debug('1', "DEBUG_FILE: $debug_file\nDEBUG_MAIL_FILE: $debug_mail_file");
+debug('1', "SPOOL: $spool");	
+debug('1', "-----");
+
+
+#
+# Mail Handling Setup.
+#    Get Message from STDIN, asign to @mesg array, create Mail::Header object
+# with it.
+#
+my @mesg = <STDIN>;			# Full Message
+my $hobj = new Mail::Header \@mesg;	# Header Object
+my @tags = $hobj->tags();		# Header Tags Array
+
+
+########
+# DEBUG
+#
+debug('1', 'Got @mesg from STDIN');
+debug('3', '--mesg', "@mesg");
+debug('3', "Debug level 3: Wrote message to $debug_mail_file");
+
+###############################################################################
+
+
+##########
+## Main ##
+##############################
+# This while loop goes through the place/pattern/mailbox arrays with $c
+# specifying which number in the arrays it's on for each loop. 
+#
+# Debug messages double as basic comments throughout script.
+#
+
+my $c = '0';
+
+while ($c <= $#place)
+{
+	# DEBUG
+	debug('1', "- In Search -");
+
+	if ($place[$c] eq 'B')
+	{
+		# DEBUG
+		debug('1', "\[ Searching in -Body- for: $pattern[$c] \]");
+
+ 		my $match = 'n';
+		my $h = 'y';
+		my $a = '0';
+		while ($a <= $#mesg)
+		{
+			if ($h eq 'n')
+			{
+				if ($mesg[$a] =~ /$pattern[$c]/)
+				{
+					# DEBUG
+					debug('1', "* Found $pattern[$c] in -Body-, writing to $mailbox[$c] *");
+
+					open (FH, ">>$mailbox[$c]") or error("Failed to open $mailbox[$c] : $!");
+						flock (FH, 2) or error("Failed to lock $mailbox[$c] : $!");
+							print FH @mesg;
+							print FH "\n";
+						flock (FH, 8) or error("Failed to unlock $mailbox[$c] : $!");
+					close FH;
+
+					# DEBUG
+					debug('1', "\[ Done. \]");
+
+					leave();
+				}
+			}
+			elsif ($mesg[$a] =~ /^\n/)	{ $h = 'n'; }
+			$a++;
+		}
+	}
+	else
+	{
+		# DEBUG
+		debug('1', "\[ Searching in -Header: $place[$c] for $pattern[$c] \]");
+
+		my $header = $hobj->get("$place[$c]");
+		if (! $header)	
+		{
+			# DEBUG
+			debug('1', "\! Header: $place[$c] doesnt exist in message. \!"); 
+
+			$c++; 
+			next; 
+		}
+		chomp $header;
+		if ($header =~ /$pattern[$c]/)
+		{
+			# DEBUG
+			debug('1', "* Found $pattern[$c] in Header, $place[$c] : $header, writing to $mailbox[$c] *");
+
+			open (FH, ">>$mailbox[$c]") or error("Failed to open $mailbox[$c] : $!");
+				flock (FH, 2) or error("Failed to lock $mailbox[$c] : $!");
+					print FH @mesg;
+					print FH "\n";
+				flock (FH, 8) or error("Failed to unlock $mailbox[$c] : $!");
+			close FH;
+
+			# DEBUG
+			debug('1', "\[ Done. \]");
+
+			leave();
+		}
+	}
+
+	# DEBUG
+	debug('1', "\! No Match. \!");
+
+	$c++;
+}
+
+# DEBUG
+debug('1', "\! No Patterns Matched in message, writing message to $spool \!");
+
+open (FH, ">>$spool") or error("Failed to open $spool: $!");
+	flock(FH, 2) or error("Failed to lock $spool: $!");
+		print FH @mesg;
+		print FH "\n";
+	flock(FH, 8) or error("Failed to unlock $spool: $!");
+close FH;
+
+# DEBUG
+debug('1', "\[ Done. \]");
+
+leave();
+
+
+
+
+
+
+
+################################# Subroutines ###############################
+
+#
+# This subroutine opens the $pmsrc file and reads the filtering rules one
+# line at a time. The @command and @mailbox array is what gets set. 
+# note: the @command array is temporary and gets split up in the 
+# command_split subroutine which is called directly after, and the @mailbox 
+# array specifies which folder to write the message to _if_ a match is found, 
+# if no match is found, the message is written to the $spool file, these 
+# actions take place in the Main Loop.
+#
+sub get_rc
+{
+	# DEBUG
+	debug('2', 'Entering get_rc');
+
+	my $entry = '0';	# Checks for valid sqeuence of entries
+
+	# DEBUG	
+	debug('2', "Reading $pmsrc");
+
+	open (FH, "$pmsrc") or error("Failed to open $pmsrc : $!");
+
+	while (<FH>)
+	{
+		if ($_ =~ /^#/) { next; }
+		if ($_ =~ /^$/) { next; }
+	
+		if ($_ =~ /^:\$$/)
+		{
+			if ($entry != '0')
+			{ error("Error in $pmsrc"); }
+			$entry = '1';
+			next;
+		}
+
+		if ($entry == '1')
+		{
+			if ($_)
+			{
+				push @command, $_;
+				$entry = '2';
+				next;
+			}
+			else
+			{ error("Error in $pmsrc"); }
+		}
+
+		if ($entry == '2')
+		{
+			if ($_)
+			{
+				chomp $_;
+				push @mailbox, $_;
+				$entry = '0';
+				next;
+			}
+			else
+			{ error("Error in $pmsrc"); }
+		}
+	}
+
+	close FH;
+
+	# DEBUG
+	debug('2', "Done Reading $pmsrc");
+
+	if ($entry != '0')
+	{ error("Error in $pmsrc near the end of the file"); }
+}
+
+
+#
+# This subroutine takes the @command array and splits it up into the @place
+# array, which tells PMS which area to do the searching in, and the @pattern
+# array which tells PMS what pattern to try and match in the specified
+# @place. he pattern matching, however, takes place in the Main Loop.
+#
+sub command_split
+{
+	# DEBUG
+	debug('2', 'Entering command_split');
+
+	my $c = '0';			
+
+	while ($c <= $#command)
+	{
+		my @tmp = split ('=', $command[$c]);
+		if ($tmp[0] & $tmp[1])
+		{
+			my @tmp2 = split("'", $tmp[1]);
+			push @pattern, $tmp2[1];
+
+			if ($tmp[0] eq 'B')
+			{
+				chomp $tmp[0];
+				push @place, $tmp[0];
+			}
+			else
+			{ 
+				@tmp = split (',', "$tmp[0]");
+				chomp $tmp[1];
+				push @place, $tmp[1];
+			}			
+		}
+		else 
+		{ 
+			error("Error with this command, $command[$c]\n");
+		}
+		$c++;
+	}		
+}
+
+
+#
+# This subroutine is the "die" function so to speak. It checks if debug is
+# set, if so it logs the die to the debug function, it then 'logger's the die,
+# then actually dies.
+#
+sub error
+{
+	my @error_mesg = @_;
+
+	# DEBUG
+	debug('1', "@error_mesg"); 
+	debug('1', "\n*** PMS Exited on Error ***\n");
+
+	print `logger -i @error_mesg`;
+	die "@error_mesg\n";
+	exit;
+}
+
+
+#
+#    This is the debug function, all the calls to this script only work if the
+# initial check in this subroutine is true (i.e. if $debug eq 'true'). If
+# so, the reuqest is passed through and is executed based on $debug_level etc.
+#    With all debug calls, the first argument passed to this subroutine MUST
+# be the debug level (i.e. number) with which that function is valid. (i.e.
+# debug('2', "Example"); will print the word "Example" into the $debug_file
+# only if the $debug level is set to 2 or less).
+#
+sub debug
+{
+	if ($debug ne 'true') { return; }
+	if ($_[0] > $debug_level ) { return; }
+
+        if ($_[1] eq '--mesg')
+        {
+                open (FH, ">>$debug_mail_file") or error("Failed to open $debug_mail_file: $!");
+			flock(FH, 2) or error("Failed to lock $debug_mail_file: $!");		
+		                print FH "$_[2]";
+			flock(FH, 8) or error("Failed to unlock $debug_mail_file: $!");
+                close FH;
+                return;
+        }
+
+
+	my $dmesg = $_[1];
+	open (FH, ">>$debug_file") or error("Failed to open $debug_file: $!");
+		flock(FH, 2) or error("Failed to lock $debug_file: $!");
+			print FH "$dmesg\n";
+		flock(FH, 8) or error("Failed to unlock $debug_file: $!");
+	close FH;
+}
+
+
+#
+# A 'Clean' exit, just puts a debug request first, so that clean exits are
+# logged as well as dies.
+#
+sub leave
+{
+	# DEBUG
+	debug('1', "\n*** PMS Exited Normaly ***\n");
+	exit;
+}
+

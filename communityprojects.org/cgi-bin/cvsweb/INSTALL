@@ -1,0 +1,118 @@
+1) To get cvsweb.cgi to work, make sure that you
+   have Perl 5 installed and a webserver which is capable
+   to execute cgi-scripts.
+
+   Currently, you need to have the GNU RCS utilities  'rlog',
+   'rcsdiff' installed (current version is 5.7). 
+
+   This will change if cvs will be able
+   to serve these functions without having a working directory 
+   [see TODO]
+   Note, that the cvsweb.cgi-script needs to have physical
+   access to the repository (or a copy of it) therefore; 
+   rsh/ssh or pserver access doesn't work yet.
+
+2) copy cvsweb.conf to your configuration directory. If
+   you've installed Apache, $ServerRoot/conf (or $ServerRoot/etc 
+   with versions >= 1.3.0) makes sense.
+   Edit cvsweb.conf to fit your needs, esp. set the CVS-Root(s)
+   of the Repository(ies) you want to view. 
+   If your RCS utilities are not in the $PATH of the cgi execution 
+   environment you need to set it in the 'Misc' section as well.
+
+3) copy cvsweb.cgi to the cgi-script location of your web server. 
+   Edit it to make the variable $config (look for 'Configuration Area')
+   point to your configuration file. 
+   If your perl binary isn't located in /usr/bin you have to edit the
+   first line of the script as well. 
+   If you want to let cvsweb.cgi run on WinNT running see (7).
+
+4) If you want to have CVS-annotate support, make sure the process
+   running cvsweb.cgi (the webserver, usually running as 'httpd' or
+   'nobody') has write permission to CVSROOT/history (if it exists) and
+   any directory within your repository to place the lockfiles of the
+   called cvs-process.  I prefer adding the httpd-user to the cvs-group
+   (but: adding 'nobody' to this group may not be a good idea for
+   security reasons). Make sure, the cvs-binary is in your PATH.
+   Note: cvs 1.10 and later supports the LockDir option, allowing you
+   to move the lock files to a separate directory. With this option
+   cvsweb does not need any write permission to the CVS repository
+   directories.
+
+5) If you do not have the dir.gif, text.gif and back.gif-icons, copy
+   them somewhere in your $DocumentRoot and edit the %ICONS-Hashtable
+   in cvsweb.conf. You won't need to do this if you have a stock
+   Apache installed .. the're located in the default icons-directory.
+   The icons distributed with this cvsweb are in the public domain.
+   If you think that the default icons are to large, use the corresponding
+   miniicons in the icons-directory and change the %ICONS-Hashtable in
+   cvsweb.conf.
+
+6) have fun
+
+7) If you've Windows NT running, calling of external programs with parameters
+   single quoted doesn't work (search for rcsdiff, rlog in
+   cvsweb.cgi), you've to replace it with double quotes. Thanks to
+   Nick Brachet to point this out.
+   I don't know if cvs-annotate works on NT.
+   
+   > From: Nick Brachet <nick@gradient.com>
+   [...]
+   > I'm running NT <g> and I had to patch a few things. For example,
+   >   open(RCS, "co -p$rev '$fullname' 2>&1 |")
+   > will fail on NT because the ' are not recognized. Using " will work
+   > though.
+
+8) If you like you can add descriptions to be shown next to each directory
+   or module name. These are read from CVSROOT/descriptions.
+
+   - Check out a copy of your CVSROOT
+   - edit checkoutlist and add a line that says
+       descriptions
+   - edit descriptions.  Add one line for each directory that you would like
+     to have a comment for.  You can have HTML in the descriptions.
+     These lines are relative from the $CVSROOT.  Example:
+       JVote/          An application to assist with <A HREF="http://www.irtc.org/">IRTC</A> voting
+       JVote/images/   Store the images for JVote
+       JVote/tools/    Scripts to startup JVote
+   - cvs add descriptions
+   - cvs commit
+   - Set $use_descriptions to 1 in cvsweb.conf.
+
+--------------------
+
+if you got PROBLEMS ..
+----------------------
+
+If you've trouble to make cvsweb.cgi work ...
+.. if nothing seems to work:
+ o check, if you can execute CGI-scripts (Apache needs to have an
+   ScriptAlias /cgi-bin or cgi-script Handler defined). Try to 
+   execute a simple CGI-script that often comes with the distribution
+   of the webserver; locate the logfiles and try to find hints
+   which explain the malfunction
+o  view the entries in the webservers error.log
+
+.. If cvsweb seems to work but doesn't show the expected result
+  (Typical error: you can't see any files)
+ o check, whether the CGI-script has read-permissions to your
+   CVS-Repository. The CGI-script often runs as the user 'nobody' 
+   or 'httpd' ..
+   If you use annotation, the user needs to have write-permissions
+   to CVSROOT/history and to the directory the file is in in order
+   to place the read-lock.
+   If you don't like cvsweb to write into your CVSROOT/history, build
+   a fake cvsroot with symlinks to the 'real' CVS-directories and make
+   a fake CVSROOT/history as symbolic link to /dev/null.
+   If you don't like cvs, called from cvsweb, to place read-locks - let
+   cvsweb operate on a copy.
+ o does cvsweb find your RCS-utils/cvs-binary(annotate) ? ($ENV{PATH} in
+   cvsweb.conf !)
+ o cvsweb allows for compression now. It is determined first, 
+   if the browser accepts gzip-encoding. But - no rule without
+   exception - MSIE claims to understand gzip encoded content but
+   displays garbage .. so MSIE is disabled now. Maybe you find another
+   Browser with this problem, then you should disable compression
+   ($allo_compress=0 in cvsweb.conf) and 
+   report it to me (<zeller@think.de>)
+

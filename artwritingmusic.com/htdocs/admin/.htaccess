@@ -1,0 +1,6 @@
+AuthType Basic
+AuthUserFile /usr/home/system/security/.artwritingmusic.com.htpasswd
+AuthName "ArtWritingMusic.com Logs"
+<Limit GET>
+require valid-user
+</Limit> 

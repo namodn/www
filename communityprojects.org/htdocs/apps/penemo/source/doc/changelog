@@ -1,0 +1,73 @@
+penemo changelog
+
+
+changes from version 1.0 BETA2 -> BETA3
+	* changed the html output a little, changed some font's and cleaned up 
+	   some layout.
+	* fixed a time problem with the penemo-admin.cgi (problem splitting 
+	   date string).
+	* modified the notification messages to be less "wordy".
+	* made all the little LED's have transparent backgrounds (in case
+	   someone wants to go and change the background to blaring white :)
+
+
+changes from version 1.0 BETA1 -> 1.0 BETA2
+	* notify_cap (specifies the cap at which to stop sending notifications).
+	* html display for the configuration options set for each agent (link 
+	   from detailed agent display).
+        * yellow 'warning' light for when an error is detected yet a notification 
+	   is not being sent.  
+	* notification bugfix
+
+changes from version 0.7 -> 1.0 BETA1
+        * complete code re-structuring (using object oriented design
+           with perl).
+        * tier levels for notification 
+        * resolved notification. send page to whatever tier it was on, to let 
+           everyone know the problem is resolved.  
+        * check funtion for plugins.  
+        * extensive pausing features 
+	* images instead of colored '*' for warning LED's (thanks to Mike Tuller)
+
+
+changes from version 0.6 -> 0.7
+        * now use Net::Ping module for initial ping check (instead
+           of using the command line ping). Noticed problem with 
+           RedHat 5.2 installs: the ping timeout param wasn't actually 
+           timing out and therefore hung penemo. 
+          
+
+changes from version 0.5 -> 0.6
+        * added ability to execute multiple command line arguments. (duh).
+        * added two command line options, -rc (Read penemo Config) and 
+           -ra (Read Agent config)both take one arg. which is the complete 
+           path to the alternate config file to read.
+        * small bugfixes here and there.
+
+changes from version 0.4 -> 0.5
+        * made http type in agent.conf able to perform several http request
+           (unlimited) per agent entry (previously it was just one).
+
+changes from version 0.3 -> 0.4
+        * set ping timeout from 1 try, to 2. this makes script run a
+           little slower if a machine is unpingable, but helps account
+           for a possible slow ping response (resulting in a bogus
+           notification).
+        * added a ping_wait option in the penemo.conf to make the value
+           (referenced above) changeable.
+        * changed the command line args a little (run penemo --help to see).
+        * added a new command line argument '-pc' (print config). prints
+           a rudimentary display of the settings in the penemo.conf.
+           (still need to fix it so it prints hashes of hashes instead of
+           the memory address).
+
+changes from version 0.2 -> 0.3
+        * minor bug fixes
+        * added 'community' tag in penemo.conf 
+           (forgot to do this in first version).
+
+changes from version 0.1 -> 0.2
+        * fixed http://<url>"<search" function (wasnt working properly).
+        * small bug fixes to avoid "undefined variable testing".
+
+

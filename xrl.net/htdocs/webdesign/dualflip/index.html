@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<TITLE>Dual Image Flip, Huh?</TITLE>
+
+
+<SCRIPT LANGUAGE="JavaScript">
+//This script changes the graphic on mouse over and a graphic in
+//another part of the screen
+
+{
+alt0 = new Image();
+alt0.src = "white.gif";
+
+alt1 = new Image();
+alt1.src = "hg_banner.gif";
+
+alt2 = new Image();
+alt2.src = "jg_banner.gif";
+
+graphic1= new Image();
+graphic1.src = "but1.gif";
+graphic1on = new Image();
+graphic1on.src = "but1b.gif";
+
+graphic2= new Image();
+graphic2.src = "but2.gif";
+graphic2on = new Image();
+graphic2on.src = "but2b.gif";
+}
+function imageChange(imageID,imageName,imageID2,imageName2) {
+
+
+{
+document.images[imageID].src = eval(imageName + ".src");
+document.images[imageID2].src = eval(imageName2 + ".src");
+}
+
+}
+
+</script>
+
+<BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#000080"
+  VLINK="#000080"
+  ALINK="#FF0000"
+  BACKGROUND="/xrl_icons/xrlbg.gif">
+
+<center>
+<TABLE border="0">
+<TR>
+<TD>
+<A HREF="/"  ONMOUSEOVER="imageChange('global','alt1','one','graphic1on')" ONMOUSEOUT="imageChange('global','alt0','one','graphic1')">
+<IMG SRC="but1.gif"  BORDER="0" NAME="one"></A><BR><BR>
+
+<A HREF="http://www.javagoodies.com" ONMOUSEOVER="imageChange('global','alt2','two','graphic2on')" ONMOUSEOUT="imageChange('global','alt0','two','graphic2')">
+<IMG SRC="but2.gif" BORDER="0" NAME="two"></A>                           
+</TD>
+
+<TD>
+<IMG SRC="white.gif" WIDTH="130" HEIGHT="130" NAME="global" >
+</TD>
+</TR>
+</TABLE>
+&nbsp <BR>
+&nbsp <BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR>
+<TD WIDTH=100%>
+<A HREF="source.html">View the Source</A>
+&nbsp &nbsp &nbsp &nbsp
+<A HREF="dualflip.zip">Get the Zip File</A>
+</TD>
+</TR>
+</TABLE>
+<P>[<A HREF="../index.html">Back</A>]</P>
+</CENTER>
+</BODY>
+</HTML>

@@ -1,0 +1,102 @@
+penemo version: 1.0 BETA3
+
+Developed and Maintained,
+by: Nick Jennings, nick@namodn.com
+
+
+INTRODUCTION
+
+ penemo is a remote monitoring program, written in perl. It is designed to 
+ implement a number of check features such as ping, http, and snmp. A plugin
+ method has been designed to allow you to add different snmp mibs to check
+ as well as a more generic plugin method so that you can write your own
+ script to check whatever you want and return certain values to let penemo
+ know if the check was succesfull or not.
+ 
+ penemo requires UCD-SNMP to be installed on systems that you wish to be snmp 
+ polled, as well as the machine this program will run on (it needs access 
+ to the snmpwalk command). However, None of the UCD-SNMP stuff is required 
+ if all you wish to do is ping hosts and perform http requests.
+
+
+
+SUPPORTED ARCHITECHURES
+
+ penemo was developed on a Debian GNU/Linux system. And has only been tested
+ with Linux and FreeBSD. However, it should theoretically run fine on any UNIX
+ system that has Perl and UCD-SNMP installed.
+
+ please send me an email if you have gotten penemo to run on any OS besides
+ Linux or FreeBSD, so I can add it to the list of tested platforms.
+
+
+
+INSTALLATION
+
+ for installation instructions please read the install.txt
+
+
+CONFIGURATION
+
+ there are two configuration files for penemo (in /usr/local/etc/penemo/).
+
+        penemo.conf - this file covers all of the configuration options
+                      that specify how penemo is to run. here is where
+		      you also specify the default values for agents,
+		      (these values are set if you havent specified
+		       otherwise in the agents.conf).
+
+        agent.conf - this file covers the configuration for the agents
+                     that penemo is to monitor. here you specify what
+                     to monitor for each agent, etc.
+
+ both of these files have fairly detailed comments for each option, in an
+ attempt to be self documenting. edit both of these files and set any values
+ that may need to be set accordingly to the way your system is configured.
+
+ sometimes the default options in the penemo.conf work fine for what you 
+ are doing.
+
+ penemo's html output is (by default) in /usr/local/share/penemo/html you
+ can symlink this directory to the directory apache has its htdocs to make
+ the html viewable from the web (remote).
+
+ I recommend the following:
+
+        # ln -s /usr/local/share/penemo/html <apache_html_dir>/penemo
+
+ or you can set the html output (dir_html directive) to write directly
+ to your webservers html data directory. (for example on debian system
+ I set dir_html /var/www/htdocs/penemo/)
+
+
+
+RUNNING PENEMO
+
+ penemo is not a daemon, it is meant to be run in a cron job every couple of
+ minutes (or however often you want). Before setting up a cron job however
+ I recommend running penemo from the command line (as root) and watch the
+ output to make sure its running correctly (i.e. has all options it needs 
+ set correctly, and the agent.conf file is configured correctly). and
+ double check its html output.
+ 
+ this is what i have in my /etc/crontab:
+
+        */5 *  * * *  root  /usr/local/sbin/penemo 2> /dev/null 1> /dev/null
+
+ this configuration runs penemo every 5 minutes and pipes all output to
+ /dev/null (otherwise it gets sent to root@localhost I believe).
+
+
+
+BUG REPORTS ETC.
+
+ please send all bug reports/ideas/questions/spam etc. to:
+
+ Nick Jennings, <nick@namodn.com>
+
+ penemos homepage is located at: 
+   http://www.penemo.org
+
+
+

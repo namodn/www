@@ -1,0 +1,390 @@
+#!/usr/bin/perl -w
+#
+#  plugins/ucd.mib 
+#  Copyright (C) 2000 Nick Jennings
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+#  This program is developed and maintained by Nick Jennings.
+# Contact Information:
+#
+#    Nick Jennings                 nick@namodn.com
+#    PMB 377                       http://nick.namodn.com
+#    4096 Piedmont Ave.
+#    Oakland, CA 94611
+#
+#  penemo homepage : http://www.communityprojects.org/apps/penemo/
+#
+#
+
+
+use lib '/usr/local/share/penemo/modules/';
+use penemo;
+use strict;
+
+my $mib = 'ucd';
+
+unless (@ARGV) {
+        print "params: \n";
+        print "         check = returns a 0, for use internally.\n";
+        print "         <ip> <community> <full path to snmpwalk>.\n";
+        exit;
+}
+
+if (($ARGV[0] eq 'check') && (! $ARGV[1])) { exit 1; }
+elsif (! $ARGV[1]) { penemo::core->notify_die("$mib.mib: bad parameters.\n"); }
+
+chomp @ARGV;
+my $ip = $ARGV[0];
+my $community = $ARGV[1];
+my $snmpwalk = $ARGV[2];
+my %snmp;
+
+# do an snmpwalk
+#
+
+my @walk = `$snmpwalk $ip $community ucd`;
+
+if ($#walk <= '1') {
+        print "$mib.mib: agent didn't respond to poll.\n";
+	exit;
+}
+else {
+        print "--agentdump\n";
+        print @walk;
+}
+
+
+foreach my $line (@walk) {
+        chomp $line;
+	next unless ($line);
+        my ($obj, $value) = split(' = ', $line);
+        $snmp{$ip}{'ucd'}{$obj} = $value;
+}
+
+
+my @miberrors = ();
+# print html data
+
+my $ok_light = penemo::core->html_image('agent', 'ok');
+my $bad_light = penemo::core->html_image('agent', 'bad');
+
+print "--htmldump\n";
+
+#
+# Processes
+#
+my $prnum = 1;
+while ()
+{
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prIndex.' . $prnum})
+   {
+      $prnum++;
+   }
+   else
+   {
+      $prnum = $prnum - 1;
+      last;
+   }
+}
+
+print "<FONT COLOR=\"#BBBB66\">Number of Monitored Daemons: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$prnum</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+
+for (my $c = '1'; $c <= $prnum; $c++)
+{
+   print "<FONT COLOR=\"#AA22AA\">Number: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">$c</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Name: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prNames.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Min. Number of Processes: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prMin.' . $c}</FONT> &nbsp &nbsp &nbsp\n";
+   print "<FONT COLOR=\"#AA22AA\">Max. Number of Processes: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prMax.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Current Number of Processes: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prCount.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prErrorFlag.' . $c} == '1')
+   {
+      print "$bad_light\n";
+      my $daemon = $snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prNames.' . $c};
+      my $errormsg = $snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prErrMessage.' . $c};
+      # Problem with $daemon daemon on IP: $ip
+      push @miberrors, "$errormsg\n";
+   }
+   else
+   {
+        print "$ok_light\n";
+   }
+
+   print "<FONT COLOR=\"#AA22AA\">Problem with Daemon: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prErrorFlag.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prErrMessage.' . $c})
+   {
+      print "<FONT COLOR=\"#AA22AA\">Error Message: </FONT>\n";
+      print "<FONT COLOR=\"#AAAAAA\">";
+      print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.prTable.prEntry.prErrMessage.' . $c}</FONT><BR>\n";
+   }
+
+   print "&nbsp;<BR>\n";
+}
+
+print "&nbsp;<BR>\n";
+
+#
+# Memory
+#
+print "<FONT COLOR=\"#BBBB66\">Memory</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Swap: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memTotalSwap.0'}</FONT> &nbsp &nbsp &nbsp\n";
+print "<FONT COLOR=\"#AA22AA\">Available Swap: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memAvailSwap.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Physical: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memTotalReal.0'}</FONT> &nbsp &nbsp &nbsp\n";
+print "<FONT COLOR=\"#AA22AA\">Available Physical: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memAvailReal.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Available: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memTotalFree.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Shared: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memShared.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Buffered: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memBuffer.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Total Cache: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memCached.0'}</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Minimum Swap Allowed: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memMinimumSwap.0'}</FONT><BR>\n";
+
+if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memSwapError.0'} == '1')
+{
+   print "$bad_light\n";
+   my $errormsg = $snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memSwapErrorMsg.0'};
+   # Minimum available swap exceded for IP: $ip
+   push @miberrors, "$errormsg\n";
+}
+else
+{
+     print "$ok_light\n";
+}
+
+print "<FONT COLOR=\"#AA22AA\">Swap Error: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memSwapError.0'}</FONT><BR>\n";
+
+if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memSwapMsg.0'})
+{
+   print "<FONT COLOR=\"#AA22AA\">Swap Error Message: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.memory.memSwapErrorMsg.0'}</FONT><BR>\n";
+}
+
+print "&nbsp;<BR>\n";
+print "&nbsp;<BR>\n";
+
+#
+# Disk
+#
+my $dsknum = 1;
+while ()
+{
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskIndex.' . $dsknum})
+   {
+      $dsknum++;
+   }
+   else
+   {
+      $dsknum = $dsknum - 1;
+      last;
+   }
+}
+
+print "<FONT COLOR=\"#BBBB66\">Number of Monitored Disks: </FONT>";
+print "<FONT COLOR=\"#AAAAAA\">$dsknum</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+
+for (my $c = '1'; $c <= $dsknum; $c++)
+{
+   print "<FONT COLOR=\"#AA22AA\">Mount Point: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskPath.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Device: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskDevice.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Minimum Free Space Allowed: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskMinimum.' . $c} == '-1')
+   {
+      print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskMinPercent.' . $c} %</FONT><BR>\n";
+   }
+   else
+   {
+      print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskMinimum.' . $c} Kb</FONT><BR>\n";
+   }
+
+   print "<FONT COLOR=\"#AA22AA\">Total Disk Size: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskTotal.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Available: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskAvail.' . $c}</FONT>&nbsp &nbsp &nbsp\n";
+   print "<FONT COLOR=\"#AA22AA\">Used: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskUsed.' . $c}</FONT> &nbsp\n";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskPercent.' . $c} %<BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskErrorFlag.' . $c} == '1')
+   {
+      print "$bad_light\n";
+      my $errormsg = $snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskErrorMsg.' . $c};
+      # Disk error on IP: $ip
+      push @miberrors, "$errormsg\n";
+   }
+   else
+   {
+        print "$ok_light\n";
+   }
+
+   print "<FONT COLOR=\"#AA22AA\">Error Flag: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskErrorFlag.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskErrorMsg.' . $c})
+   {
+      print "<FONT COLOR=\"#AA22AA\">Error Message: </FONT>\n";
+      print "<FONT COLOR=\"#AAAAAA\">";
+      print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.dskTable.dskEntry.dskErrorMsg.' . $c}</FONT><BR>\n";
+   }
+
+   print "&nbsp;<BR>\n";
+   print "&nbsp;<BR>\n";
+}
+
+print "&nbsp;<BR>\n";
+
+#
+# Load Average
+#
+my $lanum = 3;
+
+print "<FONT COLOR=\"#BBBB66\">Load Average</FONT><BR>";
+print "&nbsp;<BR>\n";
+
+for (my $c = '1'; $c <= $lanum; $c++)
+{
+   print "<FONT COLOR=\"#AA22AA\">Load Name: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laNames.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Current Load Average: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laLoad.' . $c}</FONT><BR>\n";
+   print "<FONT COLOR=\"#AA22AA\">Max Load Avg. Allowed: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laConfig.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laErrorFlag.' . $c} == '1')
+   {
+      print "$bad_light\n";
+      my $errormsg = $snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laErrorMessage.' . $c};
+      # Load Average error on IP: $ip
+      push @miberrors, "$errormsg\n";
+   }
+   else
+   {
+        print "$ok_light\n";
+   }
+
+   print "<FONT COLOR=\"#AA22AA\">Error Flag: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laErrorFlag.' . $c}</FONT><BR>\n";
+
+   if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laErrMessage.' . $c})
+   {
+      print "<FONT COLOR=\"#AA22AA\">Error Message: </FONT>\n";
+      print "<FONT COLOR=\"#AAAAAA\">";
+      print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.laTable.laEntry.laErrMessage.' . $c}</FONT><BR>\n";
+   }
+
+   print "&nbsp;<BR>\n";
+}
+
+print "&nbsp;<BR>\n";
+
+#
+# System Stats
+#
+print "<FONT COLOR=\"#BBBB66\">System Stats</FONT><BR>\n";
+print "&nbsp;<BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Memory Swapped in from Disk: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssSwapIn.0'} kB/s</FONT> &nbsp &nbsp\n";
+print "<FONT COLOR=\"#AA22AA\">Out: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssSwapIn.0'} kB/s</FONT><BR>\n";
+
+if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.sysIOSent.0'})
+{
+   print "<FONT COLOR=\"#AA22AA\">Number of Blocks Sent to a Block Device: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.sysIOSent.0'}</FONT> &nbsp &nbsp &nbsp\n";
+}
+if ($snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.sysIOReceive.0'})
+{
+   print "<FONT COLOR=\"#AA22AA\">Out: </FONT>\n";
+   print "<FONT COLOR=\"#AAAAAA\">";
+   print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssIOReceive.0'}</FONT><BR>\n";
+}
+
+print "<FONT COLOR=\"#AA22AA\">Interrupts: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssSysInterrupts.0'} p/s</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">Context Switchess: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssSysContext.0'} p/s</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">User CPU Usage: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssCpuUser.0'} %</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">System CPU Usage: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssCpuSystem.0'} %</FONT><BR>\n";
+print "<FONT COLOR=\"#AA22AA\">CPU Idle: </FONT>\n";
+print "<FONT COLOR=\"#AAAAAA\">";
+print "$snmp{$ip}{'ucd'}{'enterprises.ucdavis.systemStats.ssCpuIdle.0'} %</FONT><BR>\n";
+
+print "&nbsp;<BR>\n";
+print "&nbsp;<BR>\n";
+
+
+if (@miberrors) {
+	print "--miberrors\n";
+	print "@miberrors\n";
+}
+

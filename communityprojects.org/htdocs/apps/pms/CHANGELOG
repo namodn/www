@@ -1,0 +1,36 @@
+ PMS change log
+
+
+  version 0.8.1 
+ +++++++++++++++
+
+ * first beta release!
+
+ * fully operational mail filtering:
+ 	can specify if you want to match the pattern in a specific header, 
+ 	or in the body of message.
+ * debug levels! (for more info view the README)
+
+ * RC file (~/.pmsrc)
+ 
+ 
+
+  version 0.8.2
+ +++++++++++++++
+
+ * re-arranged debug levels. level 1 now doesn't spit out as much info, and
+   level 2 takes on some of what level 1 used to do.
+
+ * cleaned up debug output, looks nicer.
+
+ * cleaned up some code.
+
+
+
+  version 1.0.0
+ +++++++++++++++
+
+  * implemented file locking.
+
+  * cleaned up code, more modularized.
+

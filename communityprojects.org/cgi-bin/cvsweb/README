@@ -1,0 +1,76 @@
+The cgi-script cvsweb.cgi is written by Bill Fenner <fenner@freebsd.org> 
+(see [1]) for the freebsd project. It allows browsing of
+CVS-repositories (see [2]) with an HTML-browser.
+
+This version is based on Bill's script and is hacked to fit our needs,
+so don't blame him if anything doesn't work .. 
+
+Added features:
+ - a colored side by side diff
+ - easier navigation
+ - mime-type aware checkout which allows for browsing
+   of version controlled HTML-pages
+ - easier configuration - everything configurable is in one
+   external file now
+ - added cvs-annotate - this requires cvs >= 1.9 
+   (tested with cvs 1.10)
+ - a better way of viewing timestamps: they're shown as age
+   (something like 'changed 2 days 4 hours ago')
+ - sorting by filename / age - just click on the corresponding
+   column
+ - urlencodes all filenames so files with spaces and special
+   characters in their names are viewable as well.
+ - selectionbox for choosing different CVS-roots
+ - overview of last revisionnumber, age and logentry in the 
+   directory view
+ - you can check out the current revision of a file if you are
+   in the directory view (idea from Nick Brachet)
+ - gzip'ed output if the browser accepts this; this can reduce the
+   size (and download time) by a factor of 4 (directory view) to
+   10 (colored diff; the size of the colored diff could be reduced
+   with CSS .. anyone ?). The use of gzip has been in the very first
+   version of cvsweb (by Bill Fenner), but has been removed because
+   it wasn't easy to determine if a browser actually understands it. Today
+   the browsers state if they accept the Content-encoding gzip..
+   .. but MSIE lies about this (so cvsweb disables gzip-encoding in this
+   case).
+ - Tag based browsing. An easy and what I think intuitive way to browse a
+   CVS tree based on tags, with filtering of files and CVS logs to only
+   show whats relevant for the selected tag.
+ - "Pretty-printed" checkouts for text based files. My intention is to
+   eventually add cross-referencing to this, but for now the file is only
+   converted to HTML with automatic detection of various links.
+ - "Click-on-version" diff selection.
+ - sorting for every column now
+ - uses 'cvs co' for checkout instead of rcs co
+ - Ability to show directory descriptions from CVSROOT/descriptions
+
+cvsweb.cgi became quite huge now and is bad style code (I am not a
+perl-programmer - this is what I do in my spare time!) so this 
+should be rewritten. 
+
+I'd propose a Java-servlet which could use the C/S-protocol .. anyone ?
+
+And what about using mod_perl, and rewriting it into a set of proper Perl-5
+modules?
+
+This software is distributed under the terms of the BSD-licence.
+
+You can download the latest version at
+    <http://linux.stud.fh-heilbronn.de/~zeller/cgi/cvsweb.cgi/>
+
+or get it directly with cvs at
+  CVSROOT:  :pserver:anonymous@cvs.stud.fh-heilbronn.de:/cvsroot/public
+ Password:  anonymous
+   Module:  cvsweb
+
+Please send suggestions, bugs etc to
+    Henner Zeller <zeller@think.de>
+or
+    Henrik Nordstrom <hno@hem.passagen.se>
+
+-- refs
+[1] for the original Version of cvsweb.cgi, see 
+    <http://www.freebsd.org/~fenner/cvsweb/>
+[2] for cvs, see <http://www.cyclic.com/>
+

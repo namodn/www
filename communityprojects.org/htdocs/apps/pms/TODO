@@ -1,0 +1,13 @@
+ PMS todo list
++++++++++++++++
+
+ * add two more search by commands: 
+	'A' would be match specified pattern 'A'nywhere (meaning in body or
+	    in header), 
+	'AH' would be match specified pattern in 'A'ny 'H'eader (meaning in
+	     any of the message headers but not in the body).
+
+
+ * make easy little installer.
+
+ * make a man page.

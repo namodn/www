@@ -1,0 +1,91 @@
+
+ ******************************************************************
+ **                                                              **
+ **       installation script for penemo: v1.0 BETA3             **
+ **                                                              **
+ **  execute all commands as ROOT unless specified otherwise.    **
+ **                                                              **
+ **  read the file doc/penemo.doc after installing completing    ** 
+ **  these instructions                                          **
+ **                                                              **
+ **  if you wish to change the default installation paths for    **
+ **  penemo, in order to incorporate penemo into a distribution  **
+ **  or just to suit your liking, please read the configuration  **
+ **  section in the penemo.doc                                   **
+ **                                                              **
+ ******************************************************************
+
+
+ /--
+ | installing: penemo executable
+ \--------------
+
+        # cp bin/penemo /usr/local/sbin/
+        # chmod u=rwx,g=rx,o= /usr/local/sbin/penemo
+
+
+ /--
+ | installing: configuration files
+ \--------------
+
+        # cp conf/agent.conf /usr/local/etc/penemo/agent.conf
+        # cp conf/penemo.conf /usr/local/etc/penemo/penemo.conf
+
+  -note:
+    make sure you are not overwriting your old files
+  accidently, or your previous configuration will be
+  lost. you'll also want to edit these files to 
+  reflect your desired setup.
+
+
+ /--
+ | installing: penemo shared datafiles
+ \--------------
+
+        # mkdir /usr/local/share/penemo
+        # cp -r modules/ /usr/local/share/penemo/
+        # cp -r plugins/ /usr/local/share/penemo/
+        # cp -r doc/ /usr/local/share/penemo/
+
+	# mkdir /usr/local/share/penemo/data
+	# chown <penemo user>:<httpd user> /usr/local/share/penemo/data
+	# chmod u=rwx,g=rwx,o=r /usr/local/share/penemo/data
+
+  -note:
+     penemo user should be root (run as root). and httpd user is
+   whatever the httpd daemon runs as (debian: www-data, freebsd: nobody).
+
+ /--
+ | installing: html directories for penemo to write to and access images
+ \--------------
+	
+        # cp -r html/ <value of html_dir in penemo.conf> 
+  -note:
+   by default html is located in /usr/local/share/penemo/html however, for
+   example on my debian system, htdocs are located in /var/www/htdocs,
+   i set my html_dir to /var/www/htdocs/penemo/ then I perform the
+   following commands..
+    
+     (** example **)
+        # cp -r html/ /var/www/htdocs/
+	# mv /var/www/htdocs/html /var/www/htdocs/penemo
+     (** example **)
+
+
+ /--
+ | installing: cgi functionality 
+ \-------------
+
+   this cgi is only used for web-based pausing and is not needed
+   for penemo to function. if you do not wish to use the pausing
+   features via the web, you need not worry about this cgi. 
+
+     # cp bin/penemo-admin.cgi <your webservers cgi-bin directory>
+
+  -note:
+    by default cgibin_dir is set to /cgi-bin wich is the common
+  alias for accessing cgi's, you want to copy this file
+  into physical directory for your cgi-bin (/var/www/cgi-bin/
+  in debian, /usr/local//home/httpd/cgi-bin/ in redhat).
+
+

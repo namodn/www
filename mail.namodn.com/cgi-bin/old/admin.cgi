@@ -1,0 +1,20 @@
+#!/bin/sh
+echo Content-type: text/html
+echo
+echo "<CENTER>"
+echo "( Password Disabled )"
+echo "<BR>"
+echo "Click on the links below to perform the corresponding actions."
+echo "<BR>"
+echo "<HR>"
+echo "<P>"
+echo "<A HREF="/webalizer/index.html">View up-to-the-minute statistics</A>"
+echo "</P>"
+echo "<P>"
+echo "<A HREF="/logs/">View raw logs</A>"
+echo "</P>"
+echo "<P>"
+echo "<A HREF="/data/email/">Current Email Addresses</A>"
+echo "<P>"
+echo "<A HREF="/data/billing/">Billing Information</A>"
+echo "</CENTER>"

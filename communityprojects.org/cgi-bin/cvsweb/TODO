@@ -1,0 +1,41 @@
+o request tar or zip of entire directory (any tag); caching
+o limit the number of logentries shown
+o show left/right/up icons in diff/logtable
+o implement frames (backbutton on top of page)
+o DiffSelection: jump back to 'User Text Field'
+  if entered text (javascript - anyone a javascript
+  programmer ?) - 
+  done, thanks to Andy Sharp <asharp@hobbes.clarity.ca>
+o make 'exec's save: use full path and do not spawn shell
+o use strict, Apache: mod_perl; done, thanks to
+  Jens-Uwe Mager <jum@helios.de>
+o explore if we can use cvs directly to abandon the
+  use of 'rlog', 'rcsdiff'. This could be done much
+  like it is for cvs annotate; 
+  'co' done, but it seems to have problems with files which
+  have spaces in the path (rare) -> CVS bug
+  The 'rlog'-function could be implemented just like the 
+  annotate function, using a cvs in server mode. 
+  The 'rcsdiff'-functionality is almost covered by 
+  'cvs rdiff' .. but I am missing the -p and -w options
+  then ..
+  Any way to traverse the directory structure with cvs C/S 
+  ( we need the cvs list patch here I think) ? 
+  The performance could be - C/S-mode - .. bad. Caching ?
+  This way we someday won't need to have physical access to
+  the Repository (though this may not be what we want: consider
+  10'000 Users browsing your anonymous CVS via a remote cvsweb)
+o try to figure out what's the latest change within a subdirectory ..
+  the trivial (recursive ..) solution would be a bit timeconsuming
+o include date in the checkout pathinfo (+branchname),
+  to get really what you want (the current solution is not optimal
+  if you manage/review webpages: you always get a checkout of the
+  _latest_ pictures embedded in the webpage, not pictures from the 
+  same date the page is)
+o rewrite this stuff as servlet ..
+o check wether we can set $HOME to /tmp - to avoid problems with
+  cvs looking for .cvsrc etc.
+o annotate with last Log-Message in the header
+o allow to choose which representation we have in dir-view
+o open external window only if we've a specific mime-type (html)
+

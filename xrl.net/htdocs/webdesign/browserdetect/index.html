@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<TITLE>Detect Browser Type</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+var ver = navigator.appVersion;		// get version from browser
+if (ver.indexOf("MSIE") != -1)		// if IE, do a BGSOUND
+{
+	document.write('<CENTER><IMG SRC="msie.gif" BORDER=0></CENTER>')
+}
+else					// everybody else uses EMBED
+	document.write('<CENTER><IMG SRC="netscape.gif" BORDER=0></CENTER>')
+</SCRIPT>
+
+<BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#000080"
+  VLINK="#000080"
+  ALINK="#FF0000"
+  BACKGROUND="/xrl_icons/xrlbg.gif">
+
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR>
+<TD WIDTH=100%>
+<A HREF="source.html">View the Source</A>
+&nbsp &nbsp &nbsp &nbsp
+<A HREF="dtctbrws.zip">Get the Zip File</A>
+</TD>
+</TR>
+</TABLE>
+<CENTER>
+<P>[<A HREF="../index.html">Back</A>]</P>
+</CENTER>
+</BODY>
+</HTML>
+

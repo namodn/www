@@ -1,0 +1,69 @@
+{HEADER}
+News - [ 05-30-2000 : 10:20 pm ]
+{TITLE}
+Something new in the music section!
+Kees has put some new music on his <A HREF="control.cgi?call=kees/music.html" target="_top">music page</A>! Rockin! 
+
+{HEADER}
+News - [ 05-30-2000 : 5:26 am ]
+{TITLE}
+Ricky Teague's poetry update
+Ricky Teague's page in the Writing section has been updated. Nick and I both
+ran into him in SF, 
+<BR>
+selling his artwork outside the subway. We will be updating 
+his page for him as time permits.
+
+{HEADER}
+News - [ 11-22-1999 : 11:34 pm ]
+{TITLE}
+QuestionArt Mailing List!
+We now have a mailing list to provide an open forum for artists of any kind
+to talk freely about art, writing, music, or any random topic that pops up!
+You can subscribe to this list easily when you sign up for a free art page,
+or, if you dont want a page, but want to be on the list (though we really
+hope that you'll get a webpage) you can send an email to:
+<A HREF=mailto:minimalist@questionart.com>minimalist@questionart.com</A>
+with a subject of 'subscribe art'. We hope you enjoy the list!
+
+{HEADER}
+News - [ 11-01-1999 : 02:08 pm ]
+{TITLE}
+New Linux Section!
+Be sure and check out our newest addition to the "Namodn Collective". Our
+Linux Related Section! Right now there is a link to it under the Internet
+Links section, but we plan to give it its own little button on our
+navigational bar in the future. In the Linux section you can check out
+what Namodn supported GPL'd projects are under way and also check out
+other various Linux related topics, & links.
+
+{HEADER}
+News - [ 10-30-1999 : 01:30 pm ]
+{TITLE}
+AntiEvertything.com
+We've discovered an insane, compilation of madness, that can only be your
+enemy. <A HREF="http://www.AntiEverything.com" target="new">AntiEverything.com</A>.
+
+{HEADER}
+News - [ 10-27-1999 : 06:50 pm ]
+{TITLE}
+New Domains!
+We have added new domains to access ArtWritingMusic.com for your browsing pleasure!
+Use QuestionArt.com and JustArt.org 
+( NOT .com ;)
+as alternatives to the main address, ArtWritingMusic.com
+
+{HEADER}
+News - [ 10-26-1999 : 10:32 am ]
+{TITLE}
+Welcome!!
+Welcome to ArtWritingMusic.com, We've just updated our webpages and hope
+you enjoy the new look. Feal free to send your comments <A
+HREF=mailto:admin@artwritingmusic.com>here</A>.
+
+{HEADER}
+News - [ 10-24-1999 : 09:21 pm ]
+{TITLE}
+NEW MEMBER!!
+<A HREF="control.cgi?call=aja/index.html" target="_top">
+Aja's Funk</A> has been added to ArtWritingMusic.com under: Writing!

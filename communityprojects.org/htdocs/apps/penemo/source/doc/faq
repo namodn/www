@@ -1,0 +1,64 @@
+
+ ##############
+ #            #
+ # penemo FAQ #
+ #            #
+ ############## 
+
+ INDEX
+ -----
+
+   1. Checks
+       1.1 http check fails even though URL specified is good.
+
+   2. Pausing
+       2.1 when i click pause on the web interface, I get an internal server error.
+       2.2 after I click pause, and enter the time limit, when I click submit, 
+           I get an internal server error.
+
+
+
+----------------------------------------------------------------------------
+1. Checks
+-
+   1.1 http check fails even though URL specified is good.
+       In the agent.conf I have the line:
+         http  url="www.somedomain.com"
+       In one of my agents config. I know the URL is good,
+       but penemo is failing on it.
+  
+       A. Depending on the http fetching program you are using
+          (i.e. wget, fetch, or snarf) you may need to specify
+          the exact file to grab. If you have problems, try:
+            http  url="www.somedomain.com/index.html"
+          or whichever specific document you are trying to reach.
+
+----------------------------------------------------------------------------
+2. Pausing
+-
+   2.1 when i click pause on the web interface, I get an internal server error.
+
+       A. this probably means the webserver does not have permision to
+          access the cgi. Make sure it is either owned by the webserver
+          or its group, or that o=rx. 
+
+   2.2 after I click pause, and enter the time limit, when I click submit, 
+       I get an internal server error.
+
+       A. this usually means the cgi does not have permision to write to
+          the penemo data directory (where it keeps persistent agent information,
+          like error levels, pausing info etc. 
+      
+          the data directory (by default located in /usr/local/share/penemo/data)
+          must be rwx either with the webservers user or group. 
+
+       ** it is not reccomended to set o=rwx on the data directory, that would
+          allow any user to change internal agent data and pause agents for
+          extended amounts of time etc.
+ 	 
+
+
+
+
+
+

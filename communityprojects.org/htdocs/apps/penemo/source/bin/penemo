@@ -1,0 +1,393 @@
+#!/usr/bin/perl -w
+#
+#  penemo (Perl Network Monitor)
+#  Copyright (C) 2000 Nick Jennings
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+#  This program is developed and maintained by Nick Jennings.
+# Contact Information:
+#
+#    Nick Jennings                 nick@namodn.com
+#    PMB 377                       http://nick.namodn.com
+#    4096 Piedmont Ave.
+#    Oakland, CA 94611
+#
+#  penemo homepage : http://www.communityprojects.org/apps/penemo/
+#
+#
+
+use strict;
+use IO::Handle;
+
+#unless ($< == 0) {} 
+
+# penemo specific modules
+use lib '/usr/local/share/penemo/modules/';
+
+use penemo;
+
+my $penemo_conf_file = '/usr/local/etc/penemo/penemo.conf';
+my $agent_conf_file  = '/usr/local/etc/penemo/agent.conf';
+
+my $version = '1.0 beta3';
+my $date = `date`;
+my $date_string = &convert_date_to_string($date);
+
+print "penemo begin: $date";
+# create conf object
+print "loading configuration files.\n";
+my $conf = penemo::config->load_config($penemo_conf_file, $agent_conf_file);
+
+
+print "begining agent checks.\n";
+print "  1 = good.   0 = bad.\n";
+
+my @agents;
+
+while () {
+	# initialize $agent objref
+	last unless ( my $agent = $conf->get_next_agent() );
+
+	# stack agents
+	push @agents, $agent;
+
+}
+
+# foreach agent, perform the run down
+foreach my $agent (@agents) {
+	my $ip = $agent->get_ip();
+
+	# load persistent data ( error levels etc. ) into $agent object
+	print "- $ip: ", $agent->get_name(), "\n";
+	$agent->load_persistent_data($conf->get_dir_data());
+
+	print "\t\tnotify_level: ", $agent->get_notify_level(),
+		", notify_cap: ", $agent->get_notify_cap(),
+		", notify_errlev_reset: ", $agent->get_notify_errlev_reset(), "\n";
+
+	if ($agent->get_paused()) {
+		if ($agent->get_paused_end <= $date_string) {
+			# unpause agent
+			print "  $ip: time to unpause agent.\n";
+			$agent->set_paused('0');
+			$agent->set_paused_end('000000000000');
+		}
+		else {
+			# keep agent paused
+			print "  $ip: agent is paused, skipping.\n";
+			$conf->push_html_agentlist($agent);
+			next;
+		}
+	}
+	else {
+		$agent->set_paused('0');
+		$agent->set_paused_end('000000000000');
+	}	
+
+	# perform check functions
+	&ping_check($agent);
+	&http_check($agent);
+	&snmp_check($agent);
+	&plugin_check($agent);
+
+	if ($agent->get_error_detected()) { 
+		# an error has been detected
+		if ( ($agent->get_notify_cap()) && 
+				($agent->get_notify_cap() <= $agent->get_notifications_sent()) ) {
+			# don't set stack bit
+			print "  $ip: notification cap reached, no notify sent.\n";
+		}
+		else {
+			my $stack = 0;   # true if agent is to be stacked.
+			if ($agent->ping_check()) {
+				if ($agent->get_ping_errlev() >= $agent->get_notify_level()) {
+					$stack = 1;
+				}
+			}
+			if ($agent->http_check()) {
+				if ($agent->get_http_errlev() >= $agent->get_notify_level()) {
+					$stack = 1;
+				}
+			}
+			if ($agent->snmp_check()) {
+				if ($agent->get_snmp_errlev() >= $agent->get_notify_level()) {
+					$stack = 1;
+				}
+			}
+			if ($agent->plugin_check()) {
+				if ($agent->get_plugin_errlev() >= $agent->get_notify_level()) {
+					$stack = 1;
+				}
+			}
+
+			if ($stack) { 
+				&add_to_notify_stack($agent);	
+				# reset errlev if set to do so.
+				if ($agent->get_notify_errlev_reset()) {
+					$agent->set_ping_errlev('0');
+					$agent->set_http_errlev('0');
+					$agent->set_snmp_errlev('0');
+					$agent->set_plugin_errlev('0');
+				}
+			}
+		}
+	}
+	else {
+		# no errors detected
+		if ( ($agent->get_check_status()) && ($agent->have_notifications_been_sent()) ) {
+			# notifications have been sent, but now, no errors detected.
+			# add to notification stack, for resolved notification.
+			$conf->push_notification_stack($agent);	
+			print "  $ip: error(s) resolved.\n";
+			# error on this agent has been resolved
+			$agent->set_error_resolved('1');
+		}
+		# no errors detected, reset all tracking data. 
+		$agent->set_notifications_sent('0');
+	}
+	# write agent html
+	print "  $ip: writing agents html file.\n";
+	$agent->write_agent_html( $conf->get_dir_html() );
+	# add to list of agents for index html
+	$conf->push_html_agentlist($agent);
+}
+
+# print total agents loaded
+print "total agents created  : ", penemo::agent->get_total_count(), "\n";
+
+# writing index.html for agent
+print "writing index html data.\n";
+$conf->index_html_write($version, $date);
+
+
+## begin notification stuff
+##
+print "notification proccess.\n";
+
+# get data sorted for the get_notification_object_array
+$conf->organize_notification_info();
+# get list of notification objects
+my @notification_objects = $conf->get_notification_object_array();
+
+# save current error levels to file for next time
+# done here because get_notification_objects_array modifies errlevs
+foreach my $agent (@agents) {
+	# write current errorlevels and misc agent data to file
+	#print "  ", $agent->get_ip(), ": writing agent data.\n";
+	$agent->write_persistent_data($conf->get_dir_data());
+}
+
+# loop through notification objects
+foreach my $notify (@notification_objects) {
+	if ($notify->get_method() eq 'exec') {
+		$notify->execute();
+		next;
+	}
+	elsif ($notify->get_method() eq 'resolved') {
+		$notify->resolved();
+		next;
+	}
+	
+	print "notification msg sent to: ", $notify->get_method(), "\n";
+	$notify->email($conf->get_instance_name(), $version);
+}
+
+print "completed checks, exiting...\n";
+$date = `date`;
+print "penemo end: $date";
+exit;
+
+
+
+
+###################
+## subroutines
+##
+
+# agent check subroutine, takes the $agent reference as a parameter.
+sub ping_check {
+	my $agent = $_[0];
+	my $ip = $agent->get_ip();
+
+	my $add_to_notification_stack = 0;
+	if ($agent->ping_check()) {
+		print "  $ip: ping status  : "; 
+		$agent->ping();
+		print $agent->get_ping_status();
+
+		unless ($agent->get_ping_status()) { 
+ 			print "\terrlev: ", $agent->get_ping_errlev(), "\n";
+			$agent->set_error_detected(); 
+		}
+		else { 
+			print "\n";
+			if ($agent->get_ping_errlev()) {
+				
+			######## should this be here??
+			#	$agent->set_error_resolved('1');
+			}
+			$agent->set_ping_errlev('0'); 
+		} 
+	}
+	else {
+		$agent->set_ping_errlev('0'); 
+	}
+}
+
+sub http_check {
+	my $agent = $_[0];
+	my $ip = $agent->get_ip();
+
+	if ($agent->http_check()) {
+		print "  $ip: http status  : "; 
+		$agent->http( $conf->get_http_command(), $conf->get_dir_cache() );
+		print $agent->get_http_status();
+
+		unless ($agent->get_http_status()) { 
+ 			print "\terrlev: ", $agent->get_http_errlev(), "\n";
+			$agent->set_error_detected(); 
+		}
+		else { 
+			print "\n";
+			if ($agent->get_http_errlev()) {
+				#$agent->set_error_resolved('1');
+			}
+			$agent->set_http_errlev('0'); 
+		} 
+	}
+	else {		
+		$agent->set_http_errlev('0'); 
+	}
+}
+
+sub snmp_check {
+	my $agent = $_[0];
+	my $ip = $agent->get_ip();
+
+	if ($agent->snmp_check()) {
+		print "  $ip: snmp status  : "; 
+		$agent->snmp($conf->get_dir_plugin(), $conf->get_dir_ucd_bin());
+
+		my @snmp_mibs = split(/ /, $agent->get_snmp_mibs());
+		my $snmp_errlev = 1;
+		foreach my $mib (@snmp_mibs) {
+			print "$mib:", $agent->get_snmp_status($mib), " ";
+
+			unless ($agent->get_snmp_status($mib)) { 
+				$snmp_errlev = '0';
+			}
+		}
+
+		unless ($snmp_errlev) {
+			print "\terrlev: ", $agent->get_snmp_errlev(), "\n";
+			$agent->set_error_detected(); 
+		}
+		else { 
+			print "\n";
+			if ($agent->get_snmp_errlev()) {
+				#$agent->set_error_resolved('1');
+			}
+			$agent->set_snmp_errlev('0'); 
+		} 
+	}
+	else {
+		$agent->set_snmp_errlev('0'); 
+	}
+}
+
+sub plugin_check {
+	my $agent = $_[0];
+	my $ip = $agent->get_ip();
+
+
+	if ($agent->plugin_check()) {
+		print "  $ip: plugin status  : "; 
+		$agent->plugin($conf->get_dir_plugin());
+
+		my @plugin_mods = split(/ /, $agent->get_plugin_mods());
+		my $plugin_errlev = 1;
+		foreach my $mod (@plugin_mods) {
+			print "$mod:", $agent->get_plugin_status($mod), " ";
+
+			unless ($agent->get_plugin_status($mod)) { 
+				$plugin_errlev = '0';
+			}
+		}
+
+		unless ($plugin_errlev) {
+			print "\terrlev: ", $agent->get_plugin_errlev(), "\n";
+			$agent->set_error_detected(); 
+		}
+		else { 
+			print "\n";
+			if ($agent->get_plugin_errlev()) {
+				#$agent->set_error_resolved('1');
+			}
+			$agent->set_plugin_errlev('0'); 
+		} 
+	}
+	else {
+		$agent->set_plugin_errlev('0'); 
+	
+	}
+}
+
+
+sub add_to_notify_stack {
+	my $agent = $_[0];
+	my $ip = $agent->get_ip();
+	print "  $ip: error(s) detected adding to notification stack.\n";
+	$conf->push_notification_stack($agent);
+	$agent->set_have_notifications_been_sent('1');
+	# currently on the notification stack
+	$agent->set_on_notify_stack('1');
+}
+
+
+sub convert_date_to_string {
+	my $date = shift;               # Format is 'Thu Jan 13 09:39:40 PST 2000'
+	$date =~ s/\s{2}/ /g;
+	my @date = split (/\s/, $date); # Split on whitespace
+	#print $date;
+	my ($month, $day, $time, $year) = 
+			($date[1], $date[2], $date[3], $date[5]);
+	if ($day =~ /^\d{1}$/) {
+		$day = "0$day";
+	}
+
+	$month = convert_month($month);
+	my ($hour, $minutes, $seconds) = split(/:/, $time);
+
+	return ("$year$month$day$hour$minutes");
+}
+
+sub convert_month {
+	my $month = shift;
+	if	($month =~ /^Jan$/)	{ $month = '01'; }	
+	elsif	($month =~ /^Feb$/)	{ $month = '02'; }	
+	elsif	($month =~ /^Mar$/)	{ $month = '03'; }	
+	elsif	($month =~ /^Apr$/)	{ $month = '04'; }	
+	elsif	($month =~ /^May$/)	{ $month = '05'; }	
+	elsif	($month =~ /^Jun$/)	{ $month = '06'; }	
+	elsif	($month =~ /^Jul$/)	{ $month = '07'; }	
+	elsif	($month =~ /^Aug$/)	{ $month = '08'; }	
+	elsif	($month =~ /^Sep$/)	{ $month = '09'; }	
+	elsif	($month =~ /^Oct$/)	{ $month = '10'; }	
+	elsif	($month =~ /^Nov$/)	{ $month = '11'; }	
+	elsif	($month =~ /^Dec$/)	{ $month = '12'; }	
+	return ($month);
+}
+
