@@ -6,7 +6,7 @@ Content-Type: text/html
 <html><head>
 <title>Subscription Sent</title>
 </head>
-<BODY text="#0aa000" bgcolor="000000" background="" vlink="#a0a00a">
+<BODY text="#000000" bgcolor="EEEEEE" link="#AA0000" vlink="#AA0000">
 <h2 align="center">Subscription Sent, Thank you.</h2>
 <p>
 <HR>
