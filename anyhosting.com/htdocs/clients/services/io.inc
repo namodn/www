@@ -1,6 +1,6 @@
 <?php
-function create($domain){
-  $dirname = "data/".$domain;
+function isValid($domain){
+  if(!$domain) return false;
   $filename = "/var/www/DOMAINS.list";
   $handle = fopen($filename,"r");
   $contents = fread($handle,filesize($filename));
@@ -12,7 +12,11 @@ function create($domain){
       $isValid = true;
     }
   }
-  if($isValid == true){
+  return $isValid;
+}
+function create($domain){
+  $dirname = "data/".$domain;
+  if(isValid($domain) == true){
     if(!is_dir($dirname)){
       mkdir($dirname, 0700);
     }
