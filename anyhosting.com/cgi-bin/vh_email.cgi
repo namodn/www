@@ -20,7 +20,7 @@ eval `/var/www/anyhosting.com/cgi-bin/proccgi`
 #
 # Compose email message
 #
-echo $FORM_name
+echo "Thank you $FORM_name."
 (
   echo "From: $FORM_name <$FORM_email>"
   echo "Subject: [Virtual Domain Subscriber]"
@@ -49,20 +49,21 @@ echo $FORM_name
 ) | /usr/sbin/sendmail -f"$FORM_email" -F"$FORM_name" admin 
 #
 if [ $? = "0" ] ; then
+	echo "<BR>"
         echo "We will return your email as soon as possible."
 	echo "<BR>"
 	echo "<P></P>" 
- 	echo "If you have comments or questions about this service, send email to <A HREF="mailto:admin@namodn.com">admin@namodn.com</A>"
+ 	echo "If you have comments or questions about this service, send email to <A HREF="mailto:admin@anyhosting.com.com">admin@anyhosting.com</A>"
 	echo "<BR>"
 	echo "<HR>"
 else
-        echo "Oops, I could not send the mail. Sendmail failed for some"
-        echo "reason. Please send an email to"
-        echo "<i>&lt;admin@namodn.com&gt;</i>."
+        echo "Oops, I could not send the mail."
+        echo "Please send an email to"
+        echo "<i>&lt;admin@anyhosting.com&gt;</i>."
 fi
 #
 echo "<BR>"
-echo "<H3><A HREF="http://namodn.com">Back to namodn.com</A></H3>"
+echo "<H3><A HREF="http://anyhosting.com">Back to anyhosting.com</A></H3>"
 echo "<p>"
 echo "</body> </html>"
 exit 0
