@@ -63,7 +63,7 @@ else
 fi
 #
 echo "<BR>"
-echo "<H3><A HREF="http://anyhosting.com">Back to anyhosting.com</A></H3>"
+echo "<H3><A HREF="http://anyhosting.com" target="_top">Back to anyhosting.com</A></H3>"
 echo "<p>"
 echo "</body> </html>"
 exit 0
