@@ -1,60 +1,42 @@
-<?xml version="1.0"?>
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-     "DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<html>
   <head>
-    <TITLE>Sign up for your website at AnyHosting</TITLE>
+    <title>Register your website at AnyHosting</title>
+    <link type="text/css" title="normal" rel="stylesheet" href="/normal.css">
   </head>
-
-  <body text="#000000" bgcolor="#FFFFFF" link="#AA0000" vlink="#AA0000">
-    <center>
-      <H2>Sign up for your website at AnyHosting</H2>
-    </center>
-
-    <font SIZE="4">
-      <hr />
-
-      <form method="Post" action="/cgi-bin/vh_email.cgi">
-      Domain/Web/Email Hosting : $5/month  + $5 setup fee <br>&nbsp;
-
+  <body>
+    <h1>Register your website at AnyHosting</h1>
+    <form method="post" action="/cgi-bin/vh_email.cgi">
+      <h2>Domain/Web/Email Hosting : $5/month + $5 setup fee</h2>
       <table border="1">
         <tr>
           <td>
-            Desired domain name: 
-          </td>
-          <td>
-          <input type="text" name="domain" size="50" maxlength="50" />
+            Desired domain name
+	  </td>
+	  <td>
+            <input type="text" name="domain" size="25" maxlength="50">
 	  </td>
 	</tr>
 	<tr>
 	  <td>
-            Is your domain name already registered? &nbsp;
-          </td>
-	  <td>
-            <input type="checkbox" name="DAR" value="No" />
-            Domain name registration is an additional $20 per year.
+            Full name (first &amp; last):
 	  </td>
-	</tr>
-	<tr>
-          <td>
-            Full name (first &amp; last): 
-          </td>
 	  <td>
-            <input type="text" name="name" size="50" maxlength="50" />
+            <input type="text" name="name" size="25" maxlength="50">
 	  </td>
 	</tr>
 	<tr>
 	  <td>
-            Company Name: 
+            Company name (if applicable):
 	  </td>
 	  <td>
-            <input type="text" name="company" size="50" maxlength="50" />
+            <input type="text" name="company" size="25" maxlength="50">
 	  </td>
 	</tr>
 	<tr>
 	  <td>
-            Billing Address:
+            Billing address:
 	  </td>
 	  <td>
             <textarea name="address" rows="5" cols="50"></textarea>
@@ -62,23 +44,24 @@
 	</tr>
 	<tr>
 	  <td>
-            Email Address: 
+            Email address:
 	  </td>
 	  <td>
-            <input type="text" name="email" size="50" maxlegth="50" />
+            <input type="text" name="email" size="25">
 	  </td>
-
-        <tr>
+	</tr>
+	<tr>
 	  <td>
-            <input type="SUBMIT" NAME="submit" VALUE="Submit" />
+            Phone number:
 	  </td>
-        </tr>
+	  <td>
+            <input type="text" name="phone" size="25">
+	  </td>
+	</tr>
       </table>
-      </form>
-
-      <p>
-      </p>
-    </font>
+      <br>
+      <input type="submit" name="submit" value="Submit">
+    </form>
   </body>
 </html>
 

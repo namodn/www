@@ -1,158 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
 <html>
+  <head>
+    <title>Filtering spam with SpamAssassin</title>
+    <link type="text/css" title="normal" rel="stylesheet" href="/normal.css">
+  </head>
 
-<head>
-<title>Filtering spam with SpamAssassin</title>
-</head>
+  <body>
+    <div>
+      <p>Filtering spam with SpamAssassin</p>
 
-<body>
+      <p><b>AnyHosting.com has selected the software program
+      SpamAssassin to help reduce the volume of unsolicited
+      commercial email. SpamAssassin is a filter that tests email
+      headers and body text to identify spam. When a message is
+      identified as spam it places the text ***SPAM*** in the
+      subject line and sets a header flag ( X-Spam-Flag: YES
+      ).</b></p>
 
-<div>
-  <font face="Arial" size="2">
-  <p align="left"><b class="bodytext"><span class="heading"><font color="#ff0000" size="5">Filtering
-  spam with SpamAssassin</font></span></b></p>
-  <p align="left"><b class="bodytext"><font size="3"><span class="heading"><br>
-  </span>AnyHosting.com </font>&nbsp;has selected the software program
-  SpamAssassin to help reduce the volume of unsolicited commercial email.
-  SpamAssassin is a filter that tests email headers and body text to identify
-  spam.&nbsp; When a message is identified as spam it places the text ***SPAM***
-  in the subject line and sets a header flag ( X-Spam-Flag: YES ).</p>
-  <p class="bodytext">What follows are instructions to make it work with the
-  email programs&nbsp;Netscape Messenger, Outlook 2002 and Outlook Express 6.
-  The filters you set up will move spam (identified by SpamAssassin) from your 
-  INBOX to a folder called SpamFolder. 
-  <p class="bodytext"><font color="#0000ff">The spam identification procedure is
-  not completely flawless, so we recommend that you frequently check the
-  SpamFolder to delete the spam and read the other mail.</font></p>
-  <p class="heading"><u>Usage Notes:</u></p>
-  <font face="Arial" size="2">
-  <hr>
-  </font></b></font>
-  <p align="left"><b class="bodytext"><font face="Arial" size="5">Using
-  SpamAssassin with Netscape Messenger</font></b></p>
-  <font face="Arial" size="2">
-  <ul>
-    <li><span class="bodytext">Login to Netscape Messenger</span>
-    <li><span class="bodytext">Select Message Filters from the Edit menu. The
-      Inbox folder must be selected in the &quot;Filters for:&quot; field.</span>
-    <li><span class="bodytext">Click the &quot;New&quot; button.</span>
-    <li><span class="bodytext">Type Spam Filter in the Filter name field.</span>
-    <li><span class="bodytext">Click the &quot;Advanced&quot; button.</span>
-    <li><span class="bodytext">Type X-Spam-Flag in the New message header field.</span>
-    <li><span class="bodytext">Click &quot;Add.&quot;</span>
-    <li><span class="bodytext">Click &quot;OK.&quot;</span>
-    <li><span class="bodytext">Select &quot;Match any of the following.&quot;</span>
-    <li><span class="bodytext">From the pulldown menu directly above the
-      &quot;More&quot; button, select X-Spam-Flag.</span>
-    <li><span class="bodytext">In the field to the right of
-      &quot;Contains&quot;, type YES.</span>
-    <li><span class="bodytext">Click the New Folder button.</span></li>
-  </ul>
-  <ul>
-    <li><span class="bodytext">Type SpamFolder in the Name field.</span>
-    <li><span class="bodytext">Click &quot;OK&quot;.</span>
-    <li><span class="bodytext">Change the Inbox folder to the SpamFolder by
-      selecting &quot;SpamFolder&quot; in the pulldown left of the New Folder
-      button.</span>
-    <li><span class="bodytext">Click &quot;OK&quot; to create the filter rule.</span>
-    <li><span class="bodytext">Click &quot;OK&quot; to exit.</span></li>
-  </ul>
-  <hr>
-  </font>
-  <p><font face="Arial, Helvetica, sans-serif" size="5"><b class="bodytext">Using
-  SpamAssassin with </b><b>Netscape Messenger 6.x</b></font></p>
-  <font face="Arial" size="2">
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">First do the <b>Enabling
-  SpamAssassin</b> setup at the top of this document.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Select <b>Message
-  Filters</b> from the Edit menu and click on New.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Type <b>Spam Filter</b>
-  in the Filter name field.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Click <b>Any of the
-  following</b>. The matching condition should be Subject contains ***SPAM***</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Click the <b>New Folder</b>
-  button.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Select the <b>Click
-  here to select</b> button.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Select your mail
-  account and choose <b>here</b> for the parent option.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Type <b>SpamFolder</b>
-  in the name field and click <b>OK</b>.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Click <b>OK</b> to
-  create the Filter Rule.</font></p>
-  <p><font face="Arial, Helvetica, sans-serif" size="-1">Click <b>OK</b> to exit
-  the Message Filters window.</font></p>
-  </font>
-  <hr>
-  <p><b class="bodytext"><font face="Arial" size="5">Using SpamAssassin with
-  Outlook 2002</font></b></p>
-  <font face="Arial" size="2">
-  <ul>
-    <li><span class="bodytext">Login to Outlook 2002</span>
-    <li><span class="bodytext">Select Rules Wizard from the Tools menu.</span>
-    <li><span class="bodytext">Select your Inbox folder for the &quot;Apply
-      changes to this folder&quot; field.</span>
-    <li><span class="bodytext">Click the New button.</span>
-    <li><span class="bodytext">Select &quot;Start from a blank rule&quot;.</span>
-    <li><span class="bodytext">Select &quot;Check messages when they
-      arrive&quot;.</span>
-    <li><span class="bodytext">Click &quot;Next.&quot;</span>
-    <li><span class="bodytext">Checkmark the Condition &quot;with specific words
-      in the subject&quot;.</span>
-    <li><span class="bodytext">Click &quot;specific words&quot; in the Rule
-      description field to edit it.</span>
-    <li><span class="bodytext">Type ***SPAM*** in the &quot;Specify words or
-      phrases...&quot; field.</span>
-    <li><span class="bodytext">Click &quot;Add&quot; and then click
-      &quot;OK&quot;.</span>
-    <li><span class="bodytext">Click &quot;Next.&quot;</span>
-    <li><span class="bodytext">Checkmark &quot;move it to the specified
-      folder&quot; from the &quot;What do you want to do...&quot; list.</span>
-    <li><span class="bodytext">Click &quot;specified&quot; in the Rule
-      description field to edit it.</span>
-    <li><span class="bodytext">Click &quot;New&quot; to create a new folder.</span>
-    <li><span class="bodytext">Type SpamFolder in the Name field</span>
-    <li><span class="bodytext">Click &quot;mail.technerd.net&quot; in the
-      &quot;select where to place the folder&quot; field and click
-      &quot;OK.&quot;</span>
-    <li><span class="bodytext">Click &quot;Finish&quot; to create the rule.</span>
-    <li><span class="bodytext">Click &quot;OK&quot; to exit.</span></li>
-  </ul>
-  <hr>
-  </font>
-  <p align="left"><b class="bodytext"><font face="Arial" size="5">Using
-  SpamAssassin with Outlook Express 6 or 5+<br>
-  </font></b></p>
-  <font face="Arial" size="2">
-  <ul>
-    <li><span class="bodytext">Login to Outlook Express 6</span>
-    <li><span class="bodytext">Go to the Tools menu</span>
-    <li><span class="bodytext">Select &quot;Message Rules,&quot; then select
-      &quot;Mail.&quot;</span></li>
-  </ul>
-  <ul>
-    <li><span class="bodytext">Select &quot;Where the subject line contains
-      specific words&quot; in the Conditions list.</span>
-    <li><span class="bodytext">Click &quot;contains specific words&quot; in the
-      Rule Description field.</span>
-    <li><span class="bodytext">Type ***SPAM*** in the &quot;Specify words or
-      phrases...&quot; field.</span>
-    <li><span class="bodytext">Click &quot;Add,&quot; then click &quot;OK.&quot;</span>
-    <li><span class="bodytext">Select &quot;Move it to the specified
-      folder&quot; from the Actions list.</span>
-    <li><span class="bodytext">Click &quot;specified&quot; in the Rule
-      description field to edit the folder.</span>
-    <li><span class="bodytext">Click &quot;NewFolder&quot; to create a new
-      folder.</span>
-    <li><span class="bodytext">Type SpamFolder in the Folder Name field and
-      click &quot;OK.&quot;</span>
-    <li><span class="bodytext">Select &quot;SpamFolder&quot; and click
-      &quot;OK.&quot;</span>
-    <li><span class="bodytext">Type Spam Filter in the &quot;Name of the
-      rule&quot; field. · Click &quot;OK.&quot;</span>
-    <li><span class="bodytext">Click &quot;OK&quot; to exit.</span></li>
-  </ul>
-  <hr>
-  </font>
-</body>
+      <p>What follows are instructions to make it work with the
+      email programs&nbsp;Netscape Messenger, Outlook 2002 and
+      Outlook Express 6. The filters you set up will move spam
+      (identified by SpamAssassin) from your INBOX to a folder
+      called SpamFolder.</p>
 
+      <p>The spam identification procedure is not completely
+      flawless, so we recommend that you frequently check the
+      SpamFolder to delete the spam and read the other mail.</p>
+
+      <p><u>Usage Notes:</u></p>
+      <hr>
+
+      <p><b>Using SpamAssassin with Netscape Messenger</b></p>
+
+      <ul>
+        <li>Login to Netscape Messenger</li>
+
+        <li>Select Message Filters from the Edit menu. The Inbox
+        folder must be selected in the "Filters for:" field.</li>
+
+        <li>Click the "New" button.</li>
+
+        <li>Type Spam Filter in the Filter name field.</li>
+
+        <li>Click the "Advanced" button.</li>
+
+        <li>Type X-Spam-Flag in the New message header field.</li>
+
+        <li>Click "Add."</li>
+
+        <li>Click "OK."</li>
+
+        <li>Select "Match any of the following."</li>
+
+        <li>From the pulldown menu directly above the "More"
+        button, select X-Spam-Flag.</li>
+
+        <li>In the field to the right of "Contains", type YES.</li>
+
+        <li>Click the New Folder button.</li>
+      </ul>
+
+      <ul>
+        <li>Type SpamFolder in the Name field.</li>
+
+        <li>Click "OK".</li>
+
+        <li>Change the Inbox folder to the SpamFolder by selecting
+        "SpamFolder" in the pulldown left of the New Folder
+        button.</li>
+
+        <li>Click "OK" to create the filter rule.</li>
+
+        <li>Click "OK" to exit.</li>
+      </ul>
+      <hr>
+
+      <p><b>Using SpamAssassin with</b> <b>Netscape Messenger
+      6.x</b></p>
+
+      <p>First do the <b>Enabling SpamAssassin</b> setup at the top
+      of this document.</p>
+
+      <p>Select <b>Message Filters</b> from the Edit menu and click
+      on New.</p>
+
+      <p>Type <b>Spam Filter</b> in the Filter name field.</p>
+
+      <p>Click <b>Any of the following</b>. The matching condition
+      should be Subject contains ***SPAM***</p>
+
+      <p>Click the <b>New Folder</b> button.</p>
+
+      <p>Select the <b>Click here to select</b> button.</p>
+
+      <p>Select your mail account and choose <b>here</b> for the
+      parent option.</p>
+
+      <p>Type <b>SpamFolder</b> in the name field and click
+      <b>OK</b>.</p>
+
+      <p>Click <b>OK</b> to create the Filter Rule.</p>
+
+      <p>Click <b>OK</b> to exit the Message Filters window.</p>
+      <hr>
+
+      <p><b>Using SpamAssassin with Outlook 2002</b></p>
+
+      <ul>
+        <li>Login to Outlook 2002</li>
+
+        <li>Select Rules Wizard from the Tools menu.</li>
+
+        <li>Select your Inbox folder for the "Apply changes to this
+        folder" field.</li>
+
+        <li>Click the New button.</li>
+
+        <li>Select "Start from a blank rule".</li>
+
+        <li>Select "Check messages when they arrive".</li>
+
+        <li>Click "Next."</li>
+
+        <li>Checkmark the Condition "with specific words in the
+        subject".</li>
+
+        <li>Click "specific words" in the Rule description field to
+        edit it.</li>
+
+        <li>Type ***SPAM*** in the "Specify words or phrases..."
+        field.</li>
+
+        <li>Click "Add" and then click "OK".</li>
+
+        <li>Click "Next."</li>
+
+        <li>Checkmark "move it to the specified folder" from the
+        "What do you want to do..." list.</li>
+
+        <li>Click "specified" in the Rule description field to edit
+        it.</li>
+
+        <li>Click "New" to create a new folder.</li>
+
+        <li>Type SpamFolder in the Name field</li>
+
+        <li>Click "mail.technerd.net" in the "select where to place
+        the folder" field and click "OK."</li>
+
+        <li>Click "Finish" to create the rule.</li>
+
+        <li>Click "OK" to exit.</li>
+      </ul>
+      <hr>
+
+      <p><b>Using SpamAssassin with Outlook Express 6 or 5+<br>
+      </b></p>
+
+      <ul>
+        <li>Login to Outlook Express 6</li>
+
+        <li>Go to the Tools menu</li>
+
+        <li>Select "Message Rules," then select "Mail."</li>
+      </ul>
+
+      <ul>
+        <li>Select "Where the subject line contains specific words"
+        in the Conditions list.</li>
+
+        <li>Click "contains specific words" in the Rule Description
+        field.</li>
+
+        <li>Type ***SPAM*** in the "Specify words or phrases..."
+        field.</li>
+
+        <li>Click "Add," then click "OK."</li>
+
+        <li>Select "Move it to the specified folder" from the
+        Actions list.</li>
+
+        <li>Click "specified" in the Rule description field to edit
+        the folder.</li>
+
+        <li>Click "NewFolder" to create a new folder.</li>
+
+        <li>Type SpamFolder in the Folder Name field and click
+        "OK."</li>
+
+        <li>Select "SpamFolder" and click "OK."</li>
+
+        <li>Type Spam Filter in the "Name of the rule" field.
+        &middot; Click "OK."</li>
+
+        <li>Click "OK" to exit.</li>
+      </ul>
+      <hr>
+    </div>
+  </body>
 </html>
+
