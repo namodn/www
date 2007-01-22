@@ -91,6 +91,7 @@ Total: <?=$r['total']?>
       </pre>
     <p><a href="/contact">Contact us</a><br>
   </div>
+  <p>&copy;2007 AnyHosting</p>
   </body>
 </html>
 <?php
