@@ -90,8 +90,6 @@ Total: <?=$r['total']?>
 ?>
       </pre>
     <p><a href="/contact">Contact us</a><br>
-    Copyright © 2004 AnyHosting Services<br>
-    All rights reserved.</p>
   </div>
   </body>
 </html>

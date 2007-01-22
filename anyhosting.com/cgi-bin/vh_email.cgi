@@ -61,8 +61,6 @@ fi
 cat - << \END
     <p><a href="/">Return to anyhosting.com</a><br>
     <a href="/contact">Contact us</a></p>
-    <p>Copyright &copy; 2004 AnyHosting Services<br>
-    All rights reserved.</p>
   </div>
   </body>
 </html>
