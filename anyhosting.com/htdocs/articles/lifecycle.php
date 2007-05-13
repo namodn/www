@@ -33,8 +33,6 @@
     access to support. If you don't have (and don't want) experience 
     administering your own server, you'll want to find a reputable consultant.
     </p>
-    <p><i>More after the break.</i></p>
-    <?php include 'ads.php'?>
     <p><b>The big leagues</b></p>
     <p>Hosting your own servers in a datacenter. Many companies jump to this 
     stage sooner than need be, but it certainly does give you complete 
