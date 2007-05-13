@@ -1,30 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
-
-<html>
-  <head>
-    <title>AnyHosting Services</title>
-    <link type="text/css" title="normal" rel="stylesheet" href="/normal.css">
-    <script type="text/javascript"><!--
-      google_ad_client = "pub-3713787574379441";
-      google_ad_width = 728;
-      google_ad_height = 90;
-      google_ad_format = "728x90_as";
-      google_ad_type = "text";
-      //2007-05-10: AnyHosting Articles
-      google_ad_channel = "1667581840";
-      google_color_border = "666666";
-      google_color_bg = "FFFFFF";
-      google_color_link = "0000FF";
-      google_color_text = "000000";
-      google_color_url = "000000";
-    //-->
-    </script>
-  </head>
-
-  <body>
-    <div id="main">
-    <h1>AnyHosting Website Lifecycle</h1>
+<?php include 'header.php'?>
+    <h1>Website Lifecycle</h1>
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
     <b>The idea</b>
     <p>Every great web site starts with a great idea. Mockups of the content,
@@ -59,9 +34,7 @@
     administering your own server, you'll want to find a reputable consultant.
     </p>
     <p><i>More after the break.</i></p>
-    <script type="text/javascript"
-     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-    </script>
+    <?php include 'ads.php'?>
     <p><b>The big leagues</b></p>
     <p>Hosting your own servers in a datacenter. Many companies jump to this 
     stage sooner than need be, but it certainly does give you complete 
@@ -83,8 +56,4 @@
     <p>How do you choose where to start? A good web hosting company can
     help you decide where you are in this lifecycle, and how to get to
     the next step.</p>
-    <p><a href="/contact">Contact us</a></p>
-    </div>
-    <p>&copy;2007 AnyHosting</p>
-  </body>
-</html>
+<?php include 'footer.php'?>
