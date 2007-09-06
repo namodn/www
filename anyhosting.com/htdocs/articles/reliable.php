@@ -1,5 +1,5 @@
 <?php include 'header.php'?>
-    <h1>Reliable, scalable and growable web services</h1>
+    <h1>Reliable, scalable, and growable web services</h1>
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
     <b>Reliability</b>
     <p>Unexpected events happen all the time; your server's hard drive stops
