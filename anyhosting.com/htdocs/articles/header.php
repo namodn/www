@@ -8,4 +8,5 @@
   </head>
 
   <body>
+    <?php include 'ads.php'?>
     <div id="main">
