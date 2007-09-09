@@ -22,9 +22,10 @@
     many hosting companies to choose from.</p>
 
     <p>If you're not sure what to do, go with the free Google Apps service.
-    This will give you email and have a basic web presence</p>
+    <br>This will give you email and a basic web presence</p>
 
-    <b>AnyHosting recommends: Google Apps Free Edition</b>
+    <b>AnyHosting recommends: 
+    <a href="http://google.com/a">Google Apps Free Edition</a></b>
 
     <p>Now you have secured your domain, are able to send and recieve email, 
     and a basic web presence.</p>
