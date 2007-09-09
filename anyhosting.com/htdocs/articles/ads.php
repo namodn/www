@@ -1,3 +1,4 @@
+    (Advertising follows)<br>
     <script type="text/javascript"><!--
       google_ad_client = "pub-3713787574379441";
       google_ad_width = 728;

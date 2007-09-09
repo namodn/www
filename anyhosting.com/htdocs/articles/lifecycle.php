@@ -1,6 +1,5 @@
 <?php include 'header.php'?>
     <h1>Website Lifecycle</h1>
-    <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
     <b>The idea</b>
     <p>Every great web site starts with a great idea. Mockups of the content,
     a prototype web application, etc. But how do you take that project
@@ -54,4 +53,5 @@
     <p>How do you choose where to start? A good web hosting company can
     help you decide where you are in this lifecycle, and how to get to
     the next step.</p>
+    <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
 <?php include 'footer.php'?>

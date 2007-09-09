@@ -1,6 +1,5 @@
 <?php include 'header.php'?>
     <h1>Reliable, scalable, and growable web services</h1>
-    <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
     <b>Reliability</b>
     <p>Unexpected events happen all the time; your server's hard drive stops
     working, software malfunctions, the network connection goes down.
@@ -47,4 +46,5 @@
     <b>Growability</b>
     <p>Eventually, you'll want to put newer servers in; whether for software
     compatibility, or because you've hit the expansion limit for that model.
+    <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
 <?php include 'footer.php'?>
