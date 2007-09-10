@@ -28,7 +28,7 @@
     <a href="http://google.com/a">Google Apps Free Edition</a></b>
 
     <p>Now you have secured your domain, are able to send and recieve email, 
-    and a basic web presence.</p>
+    and have a basic web presence.</p>
 
     <p>What you do now depends upon your needs (Not sure? Read our article on 
     the <a href="/articles/lifecycle">Website Lifecycle</a>). You'll probably
