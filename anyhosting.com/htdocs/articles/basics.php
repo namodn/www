@@ -1,5 +1,6 @@
 <?php include 'header.php'?>
-    <h1>Web hosting basics - Do you have a great idea for a web site, but 
+    <h1>Web hosting basics</h1>
+    <h1> Do you have a great idea for a web site, but 
     don't know where to get started? You've come to the right place!</h1>
     <h2>This short article tells you everything you need to know to 
     get your own website today, at the lowest price possible.</h2>
@@ -16,16 +17,17 @@
     </p>
    
     <b>Get your domain name now - AnyHosting recommends: 
-    <a href="http://joker.com">Joker.com</a></b>
+    <a href="http://joker.com">Joker.com</a> ($12/yr)</b>
 
     <p>Next, you need somewhere to host your website and email. There are
     many hosting companies to choose from.</p>
 
     <p>If you're not sure what to do, go with the free Google Apps service.
-    <br>This will give you email and a basic web presence</p>
+    <br>This will give you email and a basic web presence.</p>
 
     <b>AnyHosting recommends: 
-    <a href="http://google.com/a">Google Apps Free Edition</a></b>
+    <a href="http://www.google.com/a/cpanel/domain/new">Google Apps</a> (Free)
+    </b>
 
     <p>Now you have secured your domain, are able to send and recieve email, 
     and have a basic web presence.</p>
@@ -40,9 +42,33 @@
      </li>
      <li>
       Drive traffic to your site (placing ads, word-of-mouth, etc.)
+      Google Adwords is a great way to advertise your site.
+      <script type="text/javascript"><!--
+      google_ad_client = "pub-3713787574379441";
+      google_ad_output = "textlink";
+      google_ad_format = "ref_text";
+      google_cpa_choice = "CAAQ3KfzygIaCNJbQ5r5YiDXKKjntoQBMAA";
+      google_ad_channel = "6568396230";
+      //-->
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
      </li>
      <li>
-      Streamline your ability to sell your product or service
+      Streamline your ability to sell your product or service.
+     </li>
+     <li>
+      Advertise on your own site. Google Adsense works well for us.
+      <script type="text/javascript"><!--
+      google_ad_client = "pub-3713787574379441";
+      google_ad_output = "textlink";
+      google_ad_format = "ref_text";
+      google_cpa_choice = "CAAQ1dLQgAIaCJqjfMpbRnsuKN2uuIEBMAA";
+      google_ad_channel = "4015484583";
+      //-->
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>.
      </li>
     </ul>
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
