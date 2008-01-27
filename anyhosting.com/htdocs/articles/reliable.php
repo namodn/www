@@ -42,9 +42,13 @@
        alt="Diagram of simple load-balanced network, adding a server.">
     </center>
     <p>Keep in mind that you can add or remove servers anytime you want, to
-    upgrade or replace faulty components.
+    upgrade or replace faulty components.</p>
     <b>Growability</b>
-    <p>Eventually, you'll want to put newer servers in; whether for software
-    compatibility, or because you've hit the expansion limit for that model.
+    <p>Eventually, you'll want to put newer servers in; whether for a software
+    upgrade, or because you've hit the expansion limit for that model. Many
+    load-balancing solutions support giving more or less "weight" to certain
+    servers, so you can give your new, higher-capacity servers a higher share
+    of the traffic, without having to completely phase out the old.</p>
+    
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
 <?php include 'footer.php'?>
