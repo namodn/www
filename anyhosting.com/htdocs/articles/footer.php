@@ -22,6 +22,6 @@
     <script type="text/javascript"
      src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     </script>
-    <p>&copy;2007 AnyHosting</p>
+    <p>&copy;2008 AnyHosting</p>
   </body>
 </html>

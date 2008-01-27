@@ -62,7 +62,7 @@ cat - << \END
     <p><a href="/">Return to anyhosting.com</a><br>
     <a href="/contact">Contact us</a></p>
   </div>
-  <p>&copy;2007 AnyHosting</p>
+  <p>&copy;2008 AnyHosting</p>
   </body>
 </html>
 END

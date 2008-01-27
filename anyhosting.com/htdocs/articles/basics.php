@@ -5,8 +5,8 @@
     <h2>This short article tells you everything you need to know to 
     get your own website today, at the lowest price possible.</h2>
     <b>Your domain name</b>
-    <p>A <a href="en.wikipedia.org/wiki/Domain_name">domain name</a> is your 
-    address on the web, like "www.example.com" for your website or 
+    <p>A <a href="http://en.wikipedia.org/wiki/Domain_name">domain name</a> 
+    is your address on the web, like "www.example.com" for your website or 
     "robert@example.com" for your email.</p>
 
     <p>Once you have your name picked out, you'll need to register it with
