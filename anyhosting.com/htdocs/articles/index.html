@@ -4,19 +4,27 @@
 <html>
   <head>
     <title>AnyHosting Articles</title>
-    <link type="text/css" title="normal" rel="stylesheet" href="/normal.css">
+    <link type="text/css" title="normal" rel="stylesheet" href="/anyhosting.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
     <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon"> 
   </head>
 
   <body>
+    <div id="page">
     <div id="header">
-    <img align="left" src="http://anyhosting.com/images/anyhosting">
-    <br>
+    <div id="headerimg">
+    <h1>AnyHosting</h1>
+    <div class="description">It's all about the web</div>
     </div>
-    <div id="main">
-    <h1>AnyHosting Articles</h1>
-    <ul>
+    </div>
+    <div id="content">
+    <ul id="menu" class="narrowcolumn">
+    <li><a href="http://anyhosting.com">Home</a></li>
+    <li id="active"><a id="current" href="http://anyhosting.com/articles">Articles</a></li>
+    <li><a href="http://anyhosting.com/blog">Blog</a></li>
+    <li><a href="http://anyhosting.com/contact">Contact</a></li>
+    </ul>
+    <ul class="narrowcolumn">
       <li>
         <p><a href="basics">Web hosting basics</a> - how to get started</p>
       </li>
@@ -29,11 +37,12 @@
         high-availability website (or other service)</p>
       </li>
     </ul>
-    <p>Check out <a href="/blog">our blog</a> to see what we're up to, 
-    and for more information on these topics.</p>
-    <p><a href="/contact">Contact us</a> if you have any questions or 
-    suggestions, or would like to contribute an article.</p>
     </div>
+    <div id="sidebar">
+    </div>
+    <div id="footer">
     <p>&copy;2008 AnyHosting</p>
+    </div>
+    </div>
   </body>
 </html>
