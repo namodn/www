@@ -1,7 +1,7 @@
 <?php include 'header.php'?>
     <h1>Web hosting basics</h1>
     <h1> Do you have a great idea for a web site, but 
-    don't know where to get started? You've come to the right place!</h1>
+    don't know where to get started?</h1>
     <h2>This short article tells you everything you need to know to 
     get your own website today, at the lowest price possible.</h2>
     <b>Your domain name</b>
