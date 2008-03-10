@@ -26,8 +26,20 @@
     <br>This will give you email and a basic web presence.</p>
 
     <b>AnyHosting recommends: 
-    <a href="http://www.google.com/a/cpanel/domain/new">Google Apps</a> (Free)
+    Google Apps (Free)
     </b>
+<script type="text/javascript"><!--
+google_ad_client = "pub-3713787574379441";
+/* 468x60, created 2/24/08 */
+google_ad_slot = "3143029870";
+google_ad_width = 468;
+google_ad_height = 60;
+google_cpa_choice = ""; // on file
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 
     <p>Now you have secured your domain, are able to send and recieve email, 
     and have a basic web presence.</p>
