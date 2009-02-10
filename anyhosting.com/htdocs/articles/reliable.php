@@ -50,5 +50,16 @@
     servers, so you can give your new, higher-capacity servers a higher share
     of the traffic, without having to completely phase out the old.</p>
     
+<script type="text/javascript"><!--
+google_ad_client = "pub-3713787574379441";
+/* articles footer */
+google_ad_slot = "4041043062";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
 <?php include 'footer.php'?>

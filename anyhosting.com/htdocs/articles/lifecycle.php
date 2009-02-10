@@ -53,5 +53,16 @@
     <p>How do you choose where to start? A good web hosting company can
     help you decide where you are in this lifecycle, and how to get to
     the next step.</p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-3713787574379441";
+/* articles footer */
+google_ad_slot = "4041043062";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
     <h3>Author: Robert Helmer <a href="mailto:rhelmer@anyhosting.com">rhelmer@anyhosting.com</a></h3>
 <?php include 'footer.php'?>
