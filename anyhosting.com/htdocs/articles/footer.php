@@ -4,6 +4,6 @@
     suggestions, or would like to contribute an article.</p>
     </div>
     <br>
-    <p>&copy;2008 AnyHosting</p>
+    <p>&copy;2009 AnyHosting</p>
   </body>
 </html>

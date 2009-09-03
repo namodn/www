@@ -10,7 +10,7 @@
     </ul>
     <p><a href="/contact">Contact us</a><br>
   </div>
-  <p>&copy;2008 AnyHosting</p>
+  <p>&copy;2009 AnyHosting</p>
   </body>
 </html>
 <?php
